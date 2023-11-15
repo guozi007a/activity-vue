@@ -6,4 +6,4 @@ COPY . .
 
 RUN npm --registry https://registry.npmmirror.com/ i
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
