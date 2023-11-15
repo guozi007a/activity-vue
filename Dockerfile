@@ -5,6 +5,5 @@ WorkDir /app
 COPY . .
 
 RUN npm --registry https://registry.npmmirror.com/ i
-RUN npm run build
 
 CMD ["npm", "run", "start"]
