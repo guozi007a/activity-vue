@@ -49,7 +49,7 @@
         .nav_right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         .nav_left {
