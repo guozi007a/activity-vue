@@ -117,6 +117,19 @@
                 }
             }
         }
+
+        .nav_right {
+            .login_btn {
+                width: 72px;
+                height: 28px;
+                border-radius: 14px;
+                text-align: center;
+                line-height: 28px;
+                background-color: #ffd630;
+                user-select: none;
+                cursor: pointer;
+            }
+        }
     }
 }
 </style>
