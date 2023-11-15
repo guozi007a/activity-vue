@@ -15,7 +15,7 @@ a {
     text-decoration: none;
 }
 a:-webkit-any-link {
-   color: #000; 
+   color: #333; 
 }
 .hide {
     display: none !important;

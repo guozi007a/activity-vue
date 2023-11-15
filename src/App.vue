@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import Nav from '~/components/nav.vue'
 </script>
 
 <template>
-    <div class="hello">hello world !</div>
+    <Nav />
 </template>
 
 <style scoped lang="scss">
