@@ -31,6 +31,7 @@
 <script setup lang="ts"></script>
 
 <style scoped lang="scss">
+@use '~/assets/mixin';
 .nav_wrap {
     position: relative;
     width: 100%;
@@ -106,13 +107,11 @@
                     transform: translateY(-50%);
                     width: 16px;
                     height: 16px;
-                    background: url(http://beta.kktv8.com/images/nav/newui/search_default.png) no-repeat center center;
-                    background-size: contain;
+                    @include mixin.set-url-bg('http://beta.kktv8.com/images/nav/newui/search_default.png');
                     cursor: pointer;
 
                     &:hover {
-                        background: url(http://beta.kktv8.com/images/nav/newui/search_hover.png) no-repeat center center;
-                        background-size: contain;
+                        @include mixin.set-url-bg('http://beta.kktv8.com/images/nav/newui/search_hover.png');
                     }
                 }
             }

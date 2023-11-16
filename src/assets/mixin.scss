@@ -1,0 +1,35 @@
+/** 设置全路径背景图 */
+@mixin set-url-bg($url) {
+    background: url($url) no-repeat center center;
+    background-size: 100% 100%;
+}
+
+/* 设置文件名主体背景图 */
+/* projectName为项目名，如play_2399 */
+/* imgName为带后缀的文件名，如dilireba.png */
+@mixin setbg($projectName, $imgName) {
+    background: url('https://rescdn.kktv8.com/kk-web-res/activity3/#{projectName}/#{imgName}') no-repeat center center;
+    background-size: 100% 100%;
+}
+
+/* 文本超出隐藏 */
+@mixin overhidden {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* flex上下左右居中 */
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* flex垂直排列时，上下左右居中 */ 
+@mixin flex-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
