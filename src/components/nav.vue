@@ -83,17 +83,17 @@
 
                 .inp {
                     box-sizing: border-box;
-                    padding: 0 12px;
+                    padding: 0 16px;
                     width: 158px;
                     height: 32px;
                     border-radius: 16px;
                     background-color: #F1F2F4;
                     font-size: 12px;
                     transition: width .3s;
-                    caret-color: #8e8e8e;
+                    caret-color: #8e8e8e; /** 设置输入框光标样式 */
 
                     &:focus {
-                        width: 174px;
+                        width: 178px;
                         transition: width .3s;
                     }
                 }
