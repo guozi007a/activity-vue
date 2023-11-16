@@ -7,9 +7,37 @@
 /* 设置文件名主体背景图 */
 /* projectName为项目名，如play_2399 */
 /* imgName为带后缀的文件名，如dilireba.png */
-@mixin setbg($projectName, $imgName) {
-    background: url('https://rescdn.kktv8.com/kk-web-res/activity3/#{projectName}/#{imgName}') no-repeat center center;
+@mixin set-file-bg($projectName, $imgName) {
+    background: url('https://rescdn.kktv8.com/kk-web-res/activity3/#{$projectName}/#{$imgName}') no-repeat center center;
     background-size: 100% 100%;
+}
+
+/* 背景图定位 */
+@mixin show-bg-position {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* 设置web页面容器样式 */
+@mixin web-wrap($fontsize: 16px) {
+    position: relative;
+	font-family: "微软雅黑", "Microsoft YaHei", "PingFangSC-Regular", "宋体", "SimSun", sans-serif;
+	font-size: $fontsize;
+	color: #fff;
+	min-width: 1250px;
+	overflow: hidden;
+}
+
+/* 设置app页面容器样式 */
+@mixin app-wrap($fontsize: 0.3rem) {
+    position: relative;
+	font-family: "微软雅黑","Microsoft YaHei","PingFangSC-Regular","宋体","SimSun",sans-serif;
+	font-size: $fontsize;
+	color: #fff;
+	max-width: 1080px;
+	overflow: hidden;
 }
 
 /* 文本超出隐藏 */
@@ -32,4 +60,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+/* 弹框容器 */
+@mixin dialog-container {
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 弹框遮罩 */
+    .dialog_mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .8);
+    }
 }

@@ -4,10 +4,8 @@ import Nav from '~/components/nav.vue'
 
 <template>
     <Nav />
+    <router-view></router-view>
 </template>
 
 <style scoped lang="scss">
-.hello {
-    color: red;
-}
 </style>

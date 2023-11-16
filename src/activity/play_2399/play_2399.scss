@@ -1,0 +1,303 @@
+@use '~/assets/mixin.scss';
+
+@mixin setbg($url) {
+    @include mixin.set-file-bg('play_2399', $url);
+}
+
+.show_wrap {
+    @include mixin.web-wrap(24px);
+
+    .show_bg {
+        @include mixin.show-bg-position;
+
+        .bg {
+            width: 100%;
+
+            &.bg1 {
+                height: 800px;
+                @include setbg('w-bg-1.png');
+            }
+            &.bg2 {
+                height: 800px;
+                @include setbg('w-bg-2.png');
+            }
+            &.bg3 {
+                height: 800px;
+                @include setbg('w-bg-3.png');
+            }
+            &.bg4 {
+                height: 996px;
+                @include setbg('w-bg-4.png');
+            }
+        }
+    }
+
+    .show_main {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+        padding-top: 68px;
+
+        .headtitle {
+            width: 523px;
+            height: 388px;
+            margin: auto;
+            @include setbg('w-headtitle.png');
+        }
+
+        .show_cont {
+            width: 934px;
+            margin: auto;
+            margin-top: 42px;
+
+            .cont {
+                position: relative;
+                width: 100%;
+                box-sizing: border-box;
+
+                &.cont1 {
+                    height: 541px;
+                    padding-top: 130px;
+                    @include setbg('w-cont1-bg.png');
+
+                    .p1 {
+                        width: 782px;
+                        margin: auto;
+                        color: #2B2B2B;
+                        line-height: 34px;
+                        
+                        span {
+                            color: #EC3900;
+                        }
+                    }
+
+                    .receive {
+                        position: absolute;
+                        z-index: 1;
+                        top: 413px;
+                        left: 109px;
+                        width: 200px;
+                        height: 67px;
+                        @include setbg('w-btn-receive-1.png');
+                        
+                        &.active {
+                            @include setbg('w-btn-receive-2.png');
+                            cursor: pointer;
+                        }
+                        &.received {
+                            @include setbg('w-btn-receive-3.png');
+                        }
+                    }
+                }
+
+                &.cont2 {
+                    height: 719px;
+                    padding-top: 130px;
+                    margin-top: 34px;
+                    @include setbg('w-cont2-bg.png');
+                    
+                    .p1, .p2 {
+                        width: 785px;
+                        margin: auto;
+                        line-height: 34px;                        
+                    }
+
+                    .p1 {
+                        color: #2B2B2B;
+                    }
+                    .p2 {
+                        color: #EC3900;
+                    }
+                    .p3 {
+                        width: 640px;
+                        height: 48px;
+                        background: rgba(235, 136, 28, 0);
+                        border: 4px solid #0a8a00;
+                        border-radius: 24px;
+                        margin: auto;
+                        margin-top: 36px;
+                        text-align: center;
+                        line-height: 48px;
+                        color: #0A8A00;                        
+                    }
+
+                    .cards {
+                        width: 100%;
+                        margin-top: 26px;
+                        display: flex;
+                        justify-content: center;
+
+                        .card_li {
+                            width: 131px;
+                            margin-left: 40px;
+    
+                            .card {
+                                width: 126px;
+                                height: 168px;
+                                margin: auto;
+                                box-sizing: border-box;
+                                padding-top: 30px;
+    
+                                .gift_img {
+                                    width: 92px;
+                                    height: 92px;
+                                    background: #ffffff;
+                                    border-radius: 46px;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    margin: auto;
+                                    
+                                    img {
+                                        width: 80px;
+                                        border-radius: 10px;
+                                    }
+                                }
+    
+                                .gift_name {
+                                    font-size: 16px;
+                                    color: #973C1E;
+                                    text-align: center;
+                                    margin-top: 5px;
+                                }
+    
+                                &.card1 {
+                                    @include setbg('w-card-a.png');
+    
+                                    &.active {
+                                        @include setbg('w-card-a-active.png');
+                                    }
+                                }
+                                &.card2 {
+                                    @include setbg('w-card-b.png');
+    
+                                    &.active {
+                                        @include setbg('w-card-b-active.png');
+                                    }
+                                }
+                                &.card3 {
+                                    @include setbg('w-card-c.png');
+    
+                                    &.active {
+                                        @include setbg('w-card-c-active.png');
+                                    }
+                                }
+                                &.card4 {
+                                    @include setbg('w-card-d.png');
+    
+                                    &.active {
+                                        @include setbg('w-card-d-active.png');
+                                    }
+                                }
+                                &.finish {
+                                    @include setbg('w-card-finish.png');
+                                }
+                            }
+    
+                            .card_money {
+                                text-align: center;
+                                color: #EC3900;
+                            }
+    
+                            .look {
+                                width: 100%;
+                                height: 55px;
+                                @include setbg('w-btn-look.png');
+                                cursor: pointer;
+                                margin-top: 12px;
+                            }
+    
+                            &.card_li1 {
+                                margin-left: 0;
+                            }
+                        }
+                    }
+                }
+
+                &.cont3 {
+                    height: 1114px;
+                    @include setbg('w-cont3-bg.png');
+                    margin-top: 33px;
+                }
+            }
+        }
+
+        .show_tip {
+            width: 934px;
+            height: 292px;
+            margin: 50px auto 80px;
+            @include setbg('w-tip-bg.png');   
+        }
+    }
+}
+
+.dialog {
+    @include mixin.dialog-container;
+
+    .dialog_x {
+        position: absolute;
+        z-index: 1;
+        top: -53px;
+        right: -43px;
+        width: 43px;
+        height: 43px;
+        @include setbg('w-x.png');
+        cursor: pointer;
+    }
+
+    .dialog1 {
+        position: relative;
+        width: 700px;
+        height: 316px;
+        box-sizing: border-box;
+        padding-top: 55px;        
+        @include setbg('w-dialog1-bg.png');
+
+        .p1 {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #B44426;
+        }
+
+        .gifts {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 38px;
+
+            .gift_li {
+                width: 92px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-left: 70px;
+
+                .gift_img {
+                    width: 92px;
+                    height: 92px;
+                    @include setbg('w-dialog1-gift-bg.png');
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        width: 80px;
+                    }
+                }
+
+                .gift_name {
+                    text-align: center;
+                    font-size: 20px;
+                    color: #392500;
+                    margin-top: 8px;
+                    white-space: nowrap;
+                }
+
+                &:nth-child(1) {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
