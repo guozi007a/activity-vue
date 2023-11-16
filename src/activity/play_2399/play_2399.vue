@@ -59,5 +59,7 @@
 import { ref } from 'vue';
 import { lookGifts } from './dep'
 
+document.title = '感恩回馈季'
+
 const dialogNum = ref<number>(-1)
 </script>

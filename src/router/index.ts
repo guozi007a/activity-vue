@@ -1,8 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const Play_2399 = () => import('~/activity/play_2399/play_2399.vue')
+const Admin = () => import('~/activity/admin/home.vue')
 
 const routes = [
+    { 
+        path: '/admin',
+        component: Admin,
+    },
     {
         path: '/activity_',
         children: [
