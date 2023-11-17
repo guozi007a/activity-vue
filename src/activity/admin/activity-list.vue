@@ -1,8 +1,8 @@
 <template>
-    <el-table :data="tableData" stripe :row-key="setRowKey">
+    <el-table :data="tableList" stripe :row-key="setRowKey">
         <el-table-column label="编号">
             <template #default="sort">
-                <span>{{ sort.$index + 1 }}</span>
+                <span>{{ sort.$index + 1 + '_' + currentPage }}</span>
             </template>
         </el-table-column>
         <el-table-column prop="branch" label="活动分支">
@@ -58,11 +58,11 @@
             background 
             layout="prev, pager, next, jumper, total, sizes" 
             :total="tableData.length" 
-            :page-size="20"
             :page-sizes="[10, 20, 50, 100]"
-            :current-page="1"
-            @update:page-size=""
-            @update:current-page=""
+            :page-size="pageSize"
+            :current-page="currentPage"
+            @update:page-size="handlePageSize"
+            @update:current-page="handleCurrentPage"
         />
     </div>
 </template>
@@ -132,7 +132,7 @@
 </style>
   
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import useClipboard from 'vue-clipboard3'
 import {
     CopyDocument,
@@ -153,7 +153,7 @@ const tableData: RowConfig<string>[] = new Array(200).fill(
         tag: '节日活动',
         date: '11月23日 11:00 - 11月26日 24:00',
         url: '/activity_/play_2399',
-    },
+    }
 )
 
 const setRowKey = (row: RowConfig<string>): string => row.branch
@@ -171,5 +171,18 @@ const copy = async (text: string) => {
 const text = ref<string>('')
 
 const clearText = () => text.value = ''
+
+const pageSize = ref<number>(20)
+const currentPage = ref<number>(1)
+
+const handlePageSize = (val: number) => {
+    // console.log('page size: ', val)
+    pageSize.value = val
+}
+const handleCurrentPage = (val: number) => {
+    // console.log('current page: ', val)
+    currentPage.value = val
+}
+const tableList = computed(() => tableData.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value))
 </script>
   
