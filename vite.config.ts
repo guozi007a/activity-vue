@@ -8,6 +8,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
     plugins: [
         vue(),
+        // 开启自动引入组件后，就不要使用import引入组件了，而是直接使用就行
+        // 如果在使用前通过import引入组件，反而会造成样式丢失
         AutoImport({
             resolvers: [ElementPlusResolver()],
         }),

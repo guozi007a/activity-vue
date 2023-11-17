@@ -1,19 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-
-const Play_2399 = () => import('~/activity/play_2399/play_2399.vue')
-const Admin = () => import('~/activity/admin/home.vue')
+import { adminRoutes } from "./admin-route";
+import { activityRoutes } from "./activity-route";
 
 const routes = [
-    { 
-        path: '/admin',
-        component: Admin,
-    },
-    {
-        path: '/activity_',
-        children: [
-            { path: 'play_2399', component: Play_2399 },
-        ]
-    }
+    ...adminRoutes,
+    ...activityRoutes,
 ]
 
 export const router = createRouter({

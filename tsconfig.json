@@ -29,13 +29,17 @@
             ]
         },
         // 当使用了Volar插件时，通过该属性指定全局组件类型。
+        // 此时会在根目录下生成两个声明文件，auto-imports.d.ts和components.d.ts
+        // 需要将这两个文件添加到下面的"include"列表中，以便能发挥声明作用，防止以外报错
+        // 此时为了方便，使用的是"./*.d.ts"
         "types": ["element-plus/global"]
     },
     "include": [
         "src/**/*.ts",
         "src/**/*.d.ts",
         "src/**/*.tsx",
-        "src/**/*.vue"
+        "src/**/*.vue",
+        "./*.d.ts",
     ],
     "references": [
         {

@@ -9,35 +9,39 @@
                 </el-header>
                 <el-container>
                     <el-aside>
-                        <el-menu default-active="1" 
+                        <el-menu
+                            :default-active="route.path"
                             class="el-menu-vertical-demo" 
-                            @open="handleOpen" 
-                            @close="handleClose"
                             mode="vertical"
                             unique-opened
+                            router
                         >
-                            <el-menu-item index="1">
+                            <el-menu-item index="/admin/dashboard">
                                 <el-icon><icon-menu /></el-icon>
                                 <span>主面板</span>
                             </el-menu-item>
-                            <el-menu-item index="2">
+                            <el-menu-item index="/admin/activity-list">
                                 <el-icon><Grid /></el-icon>
                                 <span>活动列表</span>
                             </el-menu-item>
-                            <el-sub-menu index="3">
+                            <el-sub-menu index="/admin/id-manage">
                                 <template #title>
                                     <el-icon><Operation /></el-icon>
                                     <span>账号管理</span>
                                 </template>
                                 <el-menu-item-group>
-                                    <el-menu-item index="3-1"><el-icon><CirclePlus /></el-icon>新增账号</el-menu-item>
-                                    <el-menu-item index="3-2"><el-icon><Aim /></el-icon>账号查询</el-menu-item>
+                                    <el-menu-item index="/admin/id-manage/create"><el-icon><CirclePlus /></el-icon>新增账号</el-menu-item>
+                                    <el-menu-item index="/admin/id-manage/search"><el-icon><Aim /></el-icon>账号查询</el-menu-item>
                                 </el-menu-item-group>
                             </el-sub-menu>
                         </el-menu>
                     </el-aside>
-                    <el-container>
-                        <el-main>Main</el-main>
+                    <el-container class="admin-content-wrap">
+                        <el-main>
+                            <el-scrollbar>
+                                <router-view></router-view>
+                            </el-scrollbar>
+                        </el-main>
                         <el-footer>copyright@github.guozi007a 2023</el-footer>
                     </el-container>
                 </el-container>
@@ -100,12 +104,16 @@
         }
     }
 }
+.admin-content-wrap {
+    height: calc(100vh - 60px);
+}
 </style>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import en from 'element-plus/dist/locale/en.mjs'
+import { useRoute } from 'vue-router'
 import {
     Menu as IconMenu,
     Operation,
@@ -118,11 +126,5 @@ document.title = '活动管理后台'
 
 const language = ref('zh-cn')
 const locale = computed(() => (language.value === 'zh-cn' ? zhCn : en))
-
-const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-}
+const route = useRoute()
 </script>
