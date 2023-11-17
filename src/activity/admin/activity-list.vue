@@ -63,6 +63,7 @@
             :current-page="currentPage"
             @update:page-size="handlePageSize"
             @update:current-page="handleCurrentPage"
+            hide-on-single-page
         />
     </div>
 </template>
