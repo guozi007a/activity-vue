@@ -11,7 +11,7 @@
                     <el-aside>
                         <el-menu
                             :default-active="route.path"
-                            class="el-menu-vertical-demo" 
+                            class="menu" 
                             mode="vertical"
                             unique-opened
                             router
@@ -106,6 +106,11 @@
 }
 .admin-content-wrap {
     height: calc(100vh - 60px);
+}
+.menu {
+    :deep(.el-menu-item-group__title) {
+        display: none;
+    }
 }
 </style>
 

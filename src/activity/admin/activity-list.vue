@@ -12,6 +12,7 @@
                     placement="bottom"
                     trigger="click"
                     width="auto"
+                    @show="popFocus"
                     @after-leave="clearText"
                 >
                     <template #reference>
@@ -19,7 +20,7 @@
                     </template>
                     <!-- <slot name="reference"> -->
                         <div class="pop-wrap">
-                            <el-input v-model="text" />
+                            <el-input v-model="text" ref="inpRef" />
                             <div class="pop-search-container">
                                 <el-icon class="pop-search"><Search /></el-icon>
                             </div>
@@ -140,6 +141,11 @@ import {
     Search,
 } from '@element-plus/icons-vue';
 
+const inpRef = ref<HTMLInputElement>()
+const text = ref<string>('')
+const pageSize = ref<number>(20)
+const currentPage = ref<number>(1)
+
 interface RowConfig<T> {
     branch: T
     name: T
@@ -169,12 +175,10 @@ const copy = async (text: string) => {
     }
 }
 
-const text = ref<string>('')
-
+const popFocus = () => {
+    inpRef.value && inpRef.value.focus()
+}
 const clearText = () => text.value = ''
-
-const pageSize = ref<number>(20)
-const currentPage = ref<number>(1)
 
 const handlePageSize = (val: number) => {
     // console.log('page size: ', val)
