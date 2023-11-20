@@ -110,7 +110,7 @@ const initForm: FormConfig = {
     username: '',
     nickName: '',
     avatar: '',
-    password: '',
+    password: 'Aa123456',
     money: 0,
     coupon: 0,
     gender: 3,
