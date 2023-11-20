@@ -8,7 +8,7 @@
             <el-text class="alias">
                 <span>{{ infoLabel[k] }}</span>
                 <div class="modify-info" v-if="!editKey || editKey == k">
-                    <el-icon class="edit" title="修改" v-if="editKey != k" @click="editKey = k"><Edit /></el-icon>
+                    <el-icon class="edit" title="修改" v-if="editKey != k" @click="handleEdit(v, k)"><Edit /></el-icon>
                     <el-icon class="confirm" title="确认" v-if="editKey == k"><CircleCheck /></el-icon>
                     <el-icon class="cancel" title="取消" v-if="editKey == k" @click="editKey = ''"><CircleClose /></el-icon>
                 </div>
@@ -24,8 +24,8 @@
                                 ? '无'
                                 : v
             }}</el-text>
-            <el-input v-if="editKey == k && infoTypes1.includes(k)" />
-            <el-input v-if="editKey == k && infoTypes2.includes(k)" />
+            <el-input v-else-if="editKey == k && infoTypes1.includes(k)" v-model.number="value1" />
+            <el-input v-else-if="editKey == k && infoTypes2.includes(k)" v-model="value2" />
         </li>
     </ul>
 </template>
@@ -97,6 +97,8 @@ import { Edit, CircleCheck, CircleClose } from '@element-plus/icons-vue';
 
 const searchId = ref<number>()
 const editKey = ref<string>('')
+const value1 = ref<number>()
+const value2 = ref<string>()
 
 interface UserInfoConfig {
     userId: number
@@ -159,5 +161,14 @@ const userInfo = reactive<UserInfoConfig>({
     familyName: '星互娱',
     birthday: '2023-11-20',
 })
+
+const handleEdit = (v: any, k: string) => {
+    editKey.value = k
+    if (editKey.value == k && infoTypes1.includes(k)) {
+        value1.value = v
+    } else if (editKey.value == k && infoTypes2.includes(k)) {
+        value2.value = v
+    }
+}
 
 </script>
