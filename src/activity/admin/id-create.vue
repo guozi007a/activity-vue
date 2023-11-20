@@ -127,6 +127,14 @@ const initForm: FormConfig = {
 const formRef = ref<FormInstance>()
 const form = reactive<FormConfig>(initForm)
 
+const checkUserId = (_: any, value: any, callback: any) => {
+    if (value <= 0) {
+        callback(new Error('用户Id不能为0'))
+    } else {
+        callback()
+    }
+}
+
 const checkUsername = (_: any, value: any, callback: any) => {
     const reg = /[a-zA-Z_0-9-]/
     if (!reg.test(value)) {
@@ -148,6 +156,7 @@ const checkPassword = (_: any, value: any, callback: any) => {
 const rules = reactive<FormRules<FormConfig>>({
     userId: [
         { required: true, message: '用户id不能为空', trigger: 'blur' },
+        { validator: checkUserId, trigger: 'blur' },
     ],
     username: [
         { required: true, message: '用户名不能为空', trigger: 'blur' },
