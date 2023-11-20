@@ -191,6 +191,8 @@ const rules = reactive<FormRules<FormConfig>>({
     birthday: [],
 })
 
+const disabledDate = (date: Date) => date.getTime() > now.getTime()
+
 const handleSubmit = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.validate((valid) => {
@@ -208,5 +210,4 @@ const handleReset = (formEl: FormInstance | undefined) => {
     formEl.resetFields()
 }
 
-const disabledDate = (date: Date) => date.getTime() > now.getTime()
 </script>
