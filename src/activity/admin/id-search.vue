@@ -7,13 +7,13 @@
         <li class="info" v-for="(v, k) in userInfo" :key="k">
             <el-text class="alias">
                 <span>{{ infoLabel[k] }}</span>
-                <div class="modify-info">
-                    <el-icon class="edit" title="修改"><Edit /></el-icon>
-                    <el-icon class="confirm" title="确认"><CircleCheck /></el-icon>
-                    <el-icon class="cancel" title="取消"><CircleClose /></el-icon>
+                <div class="modify-info" v-if="!editKey || editKey == k">
+                    <el-icon class="edit" title="修改" v-if="editKey != k" @click="editKey = k"><Edit /></el-icon>
+                    <el-icon class="confirm" title="确认" v-if="editKey == k"><CircleCheck /></el-icon>
+                    <el-icon class="cancel" title="取消" v-if="editKey == k" @click="editKey = ''"><CircleClose /></el-icon>
                 </div>
             </el-text>
-            <el-text class="info-text">{{
+            <el-text class="info-text" v-if="!editKey || editKey != k">{{
                 k == 'gender'
                     ? genderList[v as number - 1]
                     : k == 'identity'
@@ -24,6 +24,8 @@
                                 ? '无'
                                 : v
             }}</el-text>
+            <el-input v-if="editKey == k && infoTypes1.includes(k)" />
+            <el-input v-if="editKey == k && infoTypes2.includes(k)" />
         </li>
     </ul>
 </template>
@@ -58,6 +60,7 @@
             line-height: 30px;
             &.alias {
                 width: 210px;
+                flex-shrink: 0;
 
                 .modify-info {
                     position: absolute;
@@ -93,6 +96,7 @@ import { ref, reactive } from 'vue';
 import { Edit, CircleCheck, CircleClose } from '@element-plus/icons-vue';
 
 const searchId = ref<number>()
+const editKey = ref<string>('')
 
 interface UserInfoConfig {
     userId: number
@@ -133,6 +137,10 @@ const infoLabel = {
 const genderList = ['男', '女', '保密']
 const identityList = ['用户', '普通主播', '情感厅房主', '情感厅普通主播']
 const talentList = ['唱歌', '跳舞', '二次元', '搞笑', '无']
+const infoTypes1 = ['userId', 'money', 'coupon', 'userLevel', 'actorLevel', 'familyId']
+const infoTypes2 = ['username', 'nickName', 'avatar', 'password', 'familyName']
+// const infoTypes3 = ['gender', 'identity', 'talent']
+// const infoTypes4 = ['birthday']
 
 const userInfo = reactive<UserInfoConfig>({
     userId: 10323,
