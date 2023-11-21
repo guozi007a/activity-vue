@@ -84,24 +84,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
-
-interface FormConfig {
-    userId: number
-    username: string
-    nickName: string
-    avatar: string
-    password: string
-    money: number
-    coupon: number
-    gender: number
-    identity: number
-    userLevel: number
-    actorLevel: number
-    talent: number
-    familyId: number
-    familyName: string
-    birthday: string
-}
+import type { FormConfig } from './id-types';
 
 const now = new Date()
 

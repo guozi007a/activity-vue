@@ -4,28 +4,26 @@
         <el-button type="primary">搜索</el-button>
     </div>
     <ul class="info-list">
-        <li class="info" v-for="(v, k) in userInfo" :key="k">
+        <li class="info" v-for="(v, k) in idInfo" :key="k">
             <el-text class="alias">
-                <span>{{ infoLabel[k] }}</span>
+                <span>{{ v.label }}</span>
                 <div class="modify-info" v-if="!editKey || editKey == k">
-                    <el-icon class="edit" title="修改" v-if="editKey != k" @click="handleEdit(v, k)"><Edit /></el-icon>
+                    <el-icon class="edit" title="修改" v-if="editKey != k" @click="handleEdit(userInfo[k], k, v.type)"><Edit /></el-icon>
                     <el-icon class="confirm" title="确认" v-if="editKey == k"><CircleCheck /></el-icon>
-                    <el-icon class="cancel" title="取消" v-if="editKey == k" @click="editKey = ''"><CircleClose /></el-icon>
+                    <el-icon class="cancel" title="取消" v-if="editKey == k" @click="handleCancel"><CircleClose /></el-icon>
                 </div>
             </el-text>
-            <el-text class="info-text" v-if="!editKey || editKey != k">{{
-                k == 'gender'
-                    ? genderList[v as number - 1]
-                    : k == 'identity'
-                        ? identityList[v as number - 1]
-                        : k == 'talent'
-                            ? talentList[v as number - 1]
-                            : k == 'avatar' && v == ''
-                                ? '无'
-                                : v
-            }}</el-text>
-            <el-input v-else-if="editKey == k && infoTypes1.includes(k)" v-model.number="value1" />
-            <el-input v-else-if="editKey == k && infoTypes2.includes(k)" v-model="value2" />
+            <el-text class="info-text" v-if="!editKey || editKey != k">
+                {{ v.type == 4 ? v.list![userInfo[k] as number - 1] : userInfo[k] }}
+            </el-text>
+            <el-input v-else-if="editKey == k && v.type == 1" v-model.number="value1" />
+            <el-input v-else-if="editKey == k && v.type == 2" v-model="value2" />
+            <el-date-picker v-else-if="editKey == k && v.type == 3" :disabled-date="disableDate" v-model="value3" />
+            <div class="radio-wrap" v-else>
+                <el-radio-group v-model="value4">
+                    <el-radio v-for="(item, index) in v.list" :label="index + 1" :key="`${item}_${index + 1}`">{{ item }}</el-radio>
+                </el-radio-group>
+            </div>
         </li>
     </ul>
 </template>
@@ -94,57 +92,19 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { Edit, CircleCheck, CircleClose } from '@element-plus/icons-vue';
+import { idInfo } from './id-types';
+import type { FormConfig } from './id-types';
 
 const searchId = ref<number>()
+// 要被编辑的那个表单
 const editKey = ref<string>('')
-const value1 = ref<number>()
-const value2 = ref<string>()
+// 每种表单类型用一类值
+const value1 = ref<number>() // 值为数字的输入框
+const value2 = ref<string>('') // 值为字符串的输入框
+const value3 = ref<string>('') // 日期选择器
+const value4 = ref<number>() // 单选框
 
-interface UserInfoConfig {
-    userId: number
-    username: string
-    nickName: string
-    avatar: string
-    password: string
-    money: number
-    coupon: number
-    gender: number
-    identity: number
-    userLevel: number
-    actorLevel: number
-    talent: number
-    familyId: number
-    familyName: string
-    birthday: string
-}
-
-const infoLabel = {
-    userId: 'ID',
-    username: '用户名',
-    nickName: '昵称',
-    avatar: '头像地址',
-    password: '密码',
-    money: '秀币余额',
-    coupon: '欢乐券',
-    gender: '性别',
-    identity: '身份类型', 
-    userLevel: '用户等级及名称',
-    actorLevel: '主播等级及名称',
-    talent: '分区类型',
-    familyId: '公会Id',
-    familyName: '公会名称',
-    birthday: '生日日期',
-}
-
-const genderList = ['男', '女', '保密']
-const identityList = ['用户', '普通主播', '情感厅房主', '情感厅普通主播']
-const talentList = ['唱歌', '跳舞', '二次元', '搞笑', '无']
-const infoTypes1 = ['userId', 'money', 'coupon', 'userLevel', 'actorLevel', 'familyId']
-const infoTypes2 = ['username', 'nickName', 'avatar', 'password', 'familyName']
-// const infoTypes3 = ['gender', 'identity', 'talent']
-// const infoTypes4 = ['birthday']
-
-const userInfo = reactive<UserInfoConfig>({
+const userInfo = reactive<FormConfig>({
     userId: 10323,
     username: 'aaabbbccc',
     nickName: 'hellouser',
@@ -162,13 +122,23 @@ const userInfo = reactive<UserInfoConfig>({
     birthday: '2023-11-20',
 })
 
-const handleEdit = (v: any, k: string) => {
+const disableDate = (date: Date) => date.getTime() > Date.now()
+
+const handleEdit = (val: any, k: string, type: number) => {
     editKey.value = k
-    if (editKey.value == k && infoTypes1.includes(k)) {
-        value1.value = v
-    } else if (editKey.value == k && infoTypes2.includes(k)) {
-        value2.value = v
+    if (editKey.value == k && type == 1) {
+        value1.value = val as number
+    } else if (editKey.value == k && type == 2) {
+        value2.value = val as string
+    } else if (editKey.value == k && type == 3) {
+        value3.value = val as string
+    } else {
+        value4.value = val as number
     }
+}
+
+const handleCancel = () => {
+    editKey.value = ''
 }
 
 </script>
