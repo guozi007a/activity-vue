@@ -3,8 +3,8 @@
     <p class="p1">本项目使用vue + vite开发，用于活动项目的案例测试</p>
     <p class="p2">输入活动编号，去往活动地址：</p>
     <div class="inp-wrap">
-        <input type="text" autofocus class="inp" placeholder="4位数字，如2399" v-model="val">
-        <a :href="`/activity_/play_${val}`" class="to-activity" @click="toActivity">GO</a>
+        <input type="text" autofocus class="inp" placeholder="4位数字，如2399" v-model="val" ref="inpRef">
+        <a :href="`/activity_/play_${val}`" class="to-activity" @click="toActivity" ref="activityRef">GO</a>
     </div>
     <div class="admin-wrap">
         或者，你也可以<a href="/admin" class="to-admin">前往管理后台</a>进行活动配置。
@@ -78,6 +78,8 @@ p {
 import { ref } from 'vue';
 
 const val = ref<string>('')
+const activityRef = ref<HTMLLinkElement>()
+const inpRef = ref<HTMLInputElement>()
 
 const toActivity = (e: Event) => {
     const reg = /\d{4}/
@@ -86,4 +88,10 @@ const toActivity = (e: Event) => {
         ElMessage.error('请输入正确的活动编号~')
     }
 }
+
+// 支持Enter
+window.addEventListener('keyup', (e: KeyboardEvent) => {
+    // 输入框获取到焦点时，按了回车键，会触发链接点击效果
+    e.key == 'Enter' && inpRef.value && document.activeElement == inpRef.value && activityRef.value && activityRef.value.click()
+})
 </script>

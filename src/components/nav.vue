@@ -22,13 +22,11 @@
                 <a href="" class="watched_link">看过</a>
                 <a href="" class="charge_link">充值</a>
                 <a href="" class="download_link">下载</a>
-                <p class="login_btn">登录</p>
+                <p class="login_btn" @click="loginStore.open()">登录</p>
             </div>
         </div>
     </nav>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 @use '~/assets/mixin';
@@ -132,3 +130,9 @@
     }
 }
 </style>
+
+<script setup lang="ts">
+import { useLoginStore } from '~/store/useLoginStore'
+
+const loginStore = useLoginStore()
+</script>
