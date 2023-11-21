@@ -2,7 +2,14 @@
     <Transition name="login">
         <div class="login-wrap" v-if="loginStore.visible">
             <div class="login-mask" @click="loginStore.close()"></div>
-        <div class="login-container"></div>
+        <div class="login-container">
+            <div class="login-x" @click="loginStore.close()">
+                <el-icon><Close /></el-icon>
+            </div>
+            <div class="login-main">
+                
+            </div>
+        </div>
     </div>
     </Transition>
 </template>
@@ -62,6 +69,7 @@
 
 <script setup lang="ts">
 import { useLoginStore } from '~/store/useLoginStore';
+import { Close } from '@element-plus/icons-vue';
 
 const loginStore = useLoginStore()
 </script>
