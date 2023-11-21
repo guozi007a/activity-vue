@@ -22,7 +22,15 @@
                 <a href="" class="watched_link">看过</a>
                 <a href="" class="charge_link">充值</a>
                 <a href="" class="download_link">下载</a>
-                <p class="login_btn" @click="loginStore.open()">登录</p>
+                <p class="login_btn" v-if="!isLogin" @click="loginStore.open()">登录</p>
+                <div class="login-info" v-if="isLogin">
+                    <div class="avatar">
+                        <img src="http://testares.kktv8.com/kktv/portrait/20220422/11/10000338_722862.jpg!48" alt="">
+                    </div>
+                    <div class="exit-wrap">
+                        <p class="exit">退出</p>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -126,6 +134,49 @@
                 user-select: none;
                 cursor: pointer;
             }
+            .login-info {
+                position: relative;
+                width: 36px;
+                .avatar {
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                    }
+                }
+                .exit-wrap {
+                    position: absolute;
+                    z-index: 1;
+                    top: 36px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 200px;
+                    height: 100px;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    display: none;
+                    .exit {
+                        width: 80px;
+                        height: 30px;
+                        margin: auto;
+                        background-color: #ffd630;
+                        text-align: center;
+                        line-height: 30px;
+                        border-radius: 4px;
+                        margin-top: 30px;
+                        user-select: none;
+                        cursor: pointer;
+                    }
+                }
+                &:hover {
+                    .exit-wrap {
+                        display: block;
+                    }
+                }
+            }
         }
     }
 }
@@ -135,4 +186,5 @@
 import { useLoginStore } from '~/store/useLoginStore'
 
 const loginStore = useLoginStore()
+const isLogin = false
 </script>
