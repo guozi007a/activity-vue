@@ -160,7 +160,7 @@
                     .login-btn {
                         width: 100%;
                         height: 34px;
-                        margin-top: 30px;
+                        margin-top: 20px;
                         text-align: center;
                         line-height: 34px;
                         background-color: #ffd630;
