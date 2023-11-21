@@ -11,6 +11,10 @@ input, button, textarea {
     border: none;
     outline: none;
 }
+input[type="text"] {
+    padding-block: 0;
+    padding-inline: 0;
+}
 a {
     text-decoration: none;
 }
