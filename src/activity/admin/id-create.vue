@@ -58,7 +58,7 @@
             <el-input v-model="form.familyName" />
         </el-form-item>
         <el-form-item label="生日" prop="birthday">
-            <el-date-picker v-model="form.birthday" :disabled-date="disabledDate" />
+            <el-date-picker v-model="form.birthday" :disabled-date="disabledDate" value-format="YYYY-MM-DD" />
         </el-form-item>
         <el-form-item label="用户等级" prop="userLevel">
             <el-input v-model.number="form.userLevel" />
@@ -85,6 +85,7 @@
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import type { FormConfig } from './id-types';
+import {createIdAPI} from '~/api/admin'
 
 const now = new Date()
 
@@ -180,7 +181,18 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.validate((valid) => {
         if (valid) {
+            const test = async (form: FormConfig) => {
+                const res = await createIdAPI(form)
+                if (res.code == "0") {
+                    ElMessage.success('恭喜你创建了一个新Id~')
+                    handleReset(formEl)
+                } else {
+                    ElMessage.error(res.message)
+                }
+            }
+            test(form)
             console.log('submit!')
+            // console.log('form: ', form)
         } else {
             console.log('error submit!')
             return false

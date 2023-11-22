@@ -12,5 +12,4 @@ import Login from './components/login.vue';
 
 // 后台不需要显示Nav
 const isNavVisible = location.pathname.includes('activity_')
-
 </script>

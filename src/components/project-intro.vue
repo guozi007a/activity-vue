@@ -1,6 +1,6 @@
 <!-- 项目介绍 -->
 <template>
-    <p class="p1">本项目使用vue + vite开发，用于活动项目的案例测试</p>
+    <p class="p1">本项目使用vue3 + vite + go + mysql开发，用于活动项目的案例测试</p>
     <p class="p2">输入活动编号，去往活动地址：</p>
     <div class="inp-wrap">
         <input type="text" autofocus class="inp" placeholder="4位数字，如2399" v-model="val" ref="inpRef">

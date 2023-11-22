@@ -22,8 +22,15 @@ instance.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
+// response type
+interface ResType {
+    code: string
+    message: string
+    data: any
+}
+
 // get request
-export const get = (url: string, params?: Record<string, any>) => {
+export const get = (url: string, params?: Record<string, any>): Promise<ResType> => {
     return instance({
         url,
         method: 'get',
@@ -31,11 +38,34 @@ export const get = (url: string, params?: Record<string, any>) => {
     })
 }
 
-// post request
-export const post = (url: string, params?: Record<string, any>) => {
+// post common request
+export const post = (url: string, params?: Record<string, any>): Promise<ResType> => {
     return instance({
         url,
         method: 'post',
-        data: params
+        data: params ? JSON.stringify(params) : {},
+    })
+}
+
+// post form request
+export const postForm = (url: string, params?: Record<string, any>): Promise<ResType> => {
+    let result = ''
+    if (params) {
+        for (const [k, v] of Object.entries(params)) {
+            if (v === null || v === undefined || v === '') {
+                continue
+            }
+            result = result
+                ? (result + `&${k}=${encodeURIComponent(v)}`)
+                : `${k}=${encodeURIComponent(v)}`
+        }
+    }
+    return instance({
+        url,
+        method: 'post',
+        data: result,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
     })
 }
