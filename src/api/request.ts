@@ -40,10 +40,21 @@ export const get = (url: string, params?: Record<string, any>): Promise<ResType>
 
 // post common request
 export const post = (url: string, params?: Record<string, any>): Promise<ResType> => {
+    let result = ''
+    if (params) {
+        for (const [k, v] of Object.entries(params)) {
+            if (v === null || v === undefined || v === '') {
+                continue
+            }
+            result = result
+                ? (result + `&${k}=${encodeURIComponent(v)}`)
+                : `${k}=${encodeURIComponent(v)}`
+        }
+    }
     return instance({
         url,
         method: 'post',
-        data: params ? JSON.stringify(params) : {},
+        data: result,
     })
 }
 

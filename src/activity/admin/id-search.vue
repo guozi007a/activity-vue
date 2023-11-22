@@ -7,9 +7,9 @@
         <li class="info" v-for="(v, k) in idInfo" :key="k">
             <el-text class="alias">
                 <span>{{ v.label }}</span>
-                <div class="modify-info" v-if="k != 'password' && (!editKey || editKey == k)">
+                <div class="modify-info" v-if="!notModifyList.includes(k) && (!editKey || editKey == k)">
                     <el-icon class="edit" title="修改" v-if="editKey != k" @click="handleEdit(userInfo[k], k, v.type)"><Edit /></el-icon>
-                    <el-icon class="confirm" title="确认" v-if="editKey == k"><CircleCheck /></el-icon>
+                    <el-icon class="confirm" title="确认" v-if="editKey == k" @click="handleConfirm(userInfo.userId, v.paramType!, k, getResultVal(v.type))"><CircleCheck /></el-icon>
                     <el-icon class="cancel" title="取消" v-if="editKey == k" @click="handleCancel"><CircleClose /></el-icon>
                 </div>
             </el-text>
@@ -95,16 +95,17 @@ import { ref, reactive } from 'vue';
 import { Edit, CircleCheck, CircleClose } from '@element-plus/icons-vue';
 import { idInfo } from './id-types';
 import type { FormConfig } from './id-types';
-import { searchIdAPI } from '~/api/admin';
+import { searchIdAPI, updateIdInfoAPI } from '~/api/admin';
 
 const searchId = ref<number>()
 // 要被编辑的那个表单
 const editKey = ref<string>('')
 // 每种表单类型用一类值
-const value1 = ref<number>() // 值为数字的输入框
+const value1 = ref<number>(0) // 值为数字的输入框
 const value2 = ref<string>('') // 值为字符串的输入框
 const value3 = ref<string>('') // 日期选择器
-const value4 = ref<number>() // 单选框
+const value4 = ref<number>(0) // 单选框
+const resultVal = ref<number | string>('') // 不论什么表单类型，最终修改的那个表单的值
 const searchRef = ref<any>() // 这里如果直接写HTMLInputElement可能有问题，因为这里是用于组件库的组件上，而不是用于原生的html上
 
 const userInfo = reactive<FormConfig>({
@@ -125,6 +126,9 @@ const userInfo = reactive<FormConfig>({
     birthday: '2023-11-20',
 })
 
+// 不能更新的字段
+const notModifyList = ['userId', 'username', 'password']
+
 const disableDate = (date: Date) => date.getTime() > Date.now()
 
 const handleEdit = (val: any, k: string, type: number) => {
@@ -140,6 +144,66 @@ const handleEdit = (val: any, k: string, type: number) => {
     }
 }
 
+const getResultVal = (type: number) => {
+    switch (type) {
+        case 1:
+            resultVal.value = value1.value
+            break
+        case 2:
+            resultVal.value = value2.value
+            break
+        case 3:
+            resultVal.value = value3.value
+            break
+        default:
+            resultVal.value = value4.value
+    }
+    return resultVal.value
+}
+
+const setNewVal = (key: string, value: number | string) => {
+    switch (key) {
+        case 'nickName':
+            userInfo.nickName = value as string
+            break
+        case 'avatar':
+            userInfo.avatar = value as string
+            break
+        case 'money':
+            userInfo.money = value as number
+            break
+        case 'coupon':
+            userInfo.coupon = value as number
+            break
+        case 'gender':
+            userInfo.gender = value as number
+            break
+        case 'identity':
+            userInfo.identity = value as number
+            break
+        case 'userLevel':
+            userInfo.userLevel = value as number
+            break
+        case 'actorLevel':
+            userInfo.actorLevel = value as number
+            break
+        case 'talent':
+            userInfo.talent = value as number
+            break
+        case 'familyId':
+            userInfo.familyId = value as number
+            break
+        case 'familyName':
+            userInfo.familyName = value as string
+            break
+        case 'birthday':
+            userInfo.birthday = value as string
+            break
+        default:
+            return
+    }
+}
+
 const handleCancel = () => {
     editKey.value = ''
 }
@@ -148,6 +212,9 @@ const handleSearch = async (userId: number) => {
     if (!userId) {
         ElMessage.error('用户id不能为空~')
         return
+    }
+    if (editKey.value) {
+        handleCancel()
     }
     const res = await searchIdAPI(userId)
     if (res.code == '0') {
@@ -180,4 +247,20 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
     // 此时在声明ref时，需要设置为any，即const searchRef = ref<any>()
     e.key == 'Enter' && searchRef.value && document.activeElement == searchRef.value.input && handleSearch(searchId.value ?? 0)
 })
+
+const handleConfirm = async (userId: number, paramType: number, key: keyof FormConfig, value: string | number) => {
+    console.log(`userid: ${userId}, paramtype: ${paramType}, key: ${key}, value: ${value}`)
+    if (!userId || !paramType || !key || !value) {
+        ElMessage.warning('修改失败：缺少必要参数')
+        return
+    }
+    const res = await updateIdInfoAPI(userId, paramType, key, value)
+    if (res.code == '0') {
+        ElMessage.success('修改成功')
+        setNewVal(key, value)
+        handleCancel()
+    } else {
+        ElMessage.error(res.message)
+    }
+}
 </script>
