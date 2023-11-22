@@ -1,13 +1,13 @@
 <template>
     <div class="search-wrap">
-        <el-input v-model.number="searchId" placeholder="输入用户id" />
-        <el-button type="primary">搜索</el-button>
+        <el-input v-model.number="searchId" placeholder="输入用户id" ref="searchRef" />
+        <el-button type="primary" @click="handleSearch(searchId ?? 0)">搜索</el-button>
     </div>
-    <ul class="info-list">
+    <ul class="info-list" v-if="userInfo.userId">
         <li class="info" v-for="(v, k) in idInfo" :key="k">
             <el-text class="alias">
                 <span>{{ v.label }}</span>
-                <div class="modify-info" v-if="!editKey || editKey == k">
+                <div class="modify-info" v-if="k != 'password' && (!editKey || editKey == k)">
                     <el-icon class="edit" title="修改" v-if="editKey != k" @click="handleEdit(userInfo[k], k, v.type)"><Edit /></el-icon>
                     <el-icon class="confirm" title="确认" v-if="editKey == k"><CircleCheck /></el-icon>
                     <el-icon class="cancel" title="取消" v-if="editKey == k" @click="handleCancel"><CircleClose /></el-icon>
@@ -26,6 +26,7 @@
             </div>
         </li>
     </ul>
+    <el-empty description="No Data" v-else style="margin-top: 60px;" />
 </template>
 
 <style scoped lang="scss">
@@ -94,6 +95,7 @@ import { ref, reactive } from 'vue';
 import { Edit, CircleCheck, CircleClose } from '@element-plus/icons-vue';
 import { idInfo } from './id-types';
 import type { FormConfig } from './id-types';
+import { searchIdAPI } from '~/api/admin';
 
 const searchId = ref<number>()
 // 要被编辑的那个表单
@@ -103,11 +105,12 @@ const value1 = ref<number>() // 值为数字的输入框
 const value2 = ref<string>('') // 值为字符串的输入框
 const value3 = ref<string>('') // 日期选择器
 const value4 = ref<number>() // 单选框
+const searchRef = ref<any>() // 这里如果直接写HTMLInputElement可能有问题，因为这里是用于组件库的组件上，而不是用于原生的html上
 
 const userInfo = reactive<FormConfig>({
-    userId: 10323,
-    username: 'aaabbbccc',
-    nickName: 'hellouser',
+    userId: 0,
+    username: '',
+    nickName: '',
     avatar: '',
     password: 'Aa123456',
     money: 0,
@@ -141,4 +144,40 @@ const handleCancel = () => {
     editKey.value = ''
 }
 
+const handleSearch = async (userId: number) => {
+    if (!userId) {
+        ElMessage.error('用户id不能为空~')
+        return
+    }
+    const res = await searchIdAPI(userId)
+    if (res.code == '0') {
+        userInfo.userId = res.data.userId
+        if (res.data.userId === 0) {
+            ElMessage.warning('无法查询到该用户~')
+            return
+        }
+        userInfo.username = res.data.username
+        userInfo.nickName = res.data.nickName
+        userInfo.avatar = res.data.avatar
+        userInfo.money = res.data.money
+        userInfo.coupon = res.data.coupon
+        userInfo.gender = res.data.gender
+        userInfo.identity = res.data.identity
+        userInfo.userLevel = res.data.userLevel
+        userInfo.actorLevel = res.data.actorLevel
+        userInfo.talent = res.data.talent
+        userInfo.familyId = res.data.familyId
+        userInfo.familyName = res.data.familyName
+        userInfo.birthday = res.data.birthday
+    }
+}
+// 支持Enter
+window.addEventListener('keyup', (e: KeyboardEvent) => {
+    // 这里需要注意组件库和原生的区别
+    // 原生是直接做对比 document.activeElement == searchRef.value
+    // 组件库需要对比的是里面的ref属性 document.activeElement == searchRef.value.ref 或者
+    // document.activeElement == searchRef.value.input
+    // 此时在声明ref时，需要设置为any，即const searchRef = ref<any>()
+    e.key == 'Enter' && searchRef.value && document.activeElement == searchRef.value.input && handleSearch(searchId.value ?? 0)
+})
 </script>

@@ -19,7 +19,8 @@
             <el-input v-model="form.avatar" />
         </el-form-item>
         <el-form-item label="密码:" prop="password">
-            <el-input v-model="form.password" placeholder="密码由8-20个字符组成，至少一个大写字母" show-password />
+            <!-- <el-input v-model="form.password" placeholder="密码由8-20个字符组成，至少一个大写字母" show-password /> -->
+            <el-text>{{ form.password }}</el-text>
         </el-form-item>
         <el-form-item label="秀币余额:" prop="money">
             <el-input v-model.number="form.money" />
