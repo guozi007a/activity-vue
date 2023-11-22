@@ -161,6 +161,8 @@ const getResultVal = (type: number) => {
     return resultVal.value
 }
 
+// 在key未知的情况下，不能直接通过userInfo[key] = value的形式进行修改新值
+// 所以需要这样一一列出并修改才有效，不会报ts错误
 const setNewVal = (key: string, value: number | string) => {
     switch (key) {
         case 'nickName':
