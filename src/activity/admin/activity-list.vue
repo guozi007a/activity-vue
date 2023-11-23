@@ -14,15 +14,16 @@
                     width="auto"
                     @show="popFocus"
                     @after-leave="clearText"
+                    :visible="popVisible"
                 >
                     <template #reference>
-                        <el-icon class="search-icon" title="搜索分支"><Search /></el-icon>
+                        <el-icon class="search-icon" title="搜索分支" @click="(e) => {popVisible = true; e.stopPropagation()}"><Search /></el-icon>
                     </template>
                     <!-- <slot name="reference"> -->
                         <div class="pop-wrap">
                             <el-input v-model="text" ref="inpRef" />
                             <div class="pop-search-container">
-                                <el-icon class="pop-search"><Search /></el-icon>
+                                <el-icon class="pop-search" @click="handleSearch(text)"><Search /></el-icon>
                             </div>
                         </div>
                     <!-- </slot> -->
@@ -48,9 +49,12 @@
         </el-table-column>
         <el-table-column label="操作">
             <template #default="oper">
-                <el-button type="primary" size="small">
-                    <a :href="'/activity_/' + oper.row.url" target="_blank" style="color: #fff;">去活动页</a>
-                </el-button>
+                <el-space wrap>
+                    <el-button type="primary" size="small">
+                        <a :href="'/activity_/' + oper.row.url" target="_blank" style="color: #fff;">去活动页</a>
+                    </el-button>
+                    <el-button type="danger" size="small">删除分支</el-button>
+                </el-space>
             </template>
         </el-table-column>
     </el-table>
@@ -136,7 +140,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import useClipboard from 'vue-clipboard3'
-import { getActivityListAPI } from '~/api/admin';
+import { getActivityListAPI, getActivityByBranch } from '~/api/admin';
 import {
     CopyDocument,
     Search,
@@ -153,12 +157,13 @@ interface RowConfig<T> {
     createDate: number
 }
 
-const inpRef = ref<HTMLInputElement>()
+const inpRef = ref<any>()
 const text = ref<string>('')
 const pageSize = ref<number>(20)
 const currentPage = ref<number>(1)
 const activityList = ref<RowConfig<string>[]>([])
 const total = ref<number>(0)
+const popVisible = ref<boolean>(false)
 
 const setRowKey = (row: RowConfig<string>): string => row.branch
 
@@ -192,11 +197,38 @@ const getTableList = async (pageSize: number, page: number) => {
         activityList.value = res.data.list
         total.value = res.data.total
     } else {
-        ElMessage.error('获取活动列表失败~')
+        ElMessage.error(res.message)
     }
 }
 onMounted(() => {
     getTableList(pageSize.value, currentPage.value)
+})
+
+const handleSearch = async (branch: string) => {
+    if (!branch) {
+        ElMessage.warning('搜索分支不能为空')
+        return
+    }
+    popVisible.value = false
+    const res = await getActivityByBranch(branch)
+    if (res.code == "0") {
+        activityList.value = res.data.list
+        total.value = res.data.total
+    } else {
+        ElMessage.error(res.message)
+    }
+}
+document.addEventListener('click', () => {
+    popVisible.value = false
+})
+// 支持Enter
+window.addEventListener('keyup', (e: KeyboardEvent) => {
+    // 这里需要注意组件库和原生的区别
+    // 原生是直接做对比 document.activeElement == inpRef.value
+    // 组件库需要对比的是里面的ref属性 document.activeElement == inpRef.value.ref 或者
+    // document.activeElement == inpRef.value.input
+    // 此时在声明ref时，需要设置为any，即const inpRef = ref<any>()
+    e.key == 'Enter' && inpRef.value && document.activeElement == inpRef.value.input && handleSearch(text.value)
 })
 </script>
   

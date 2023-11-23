@@ -11,3 +11,5 @@ export const updateIdInfoAPI = (userId: number, paramType: number, key: keyof Fo
 export const addActivityAPI = (formParams: AddActivityFormConfig) => postForm('/v2/addActivity', formParams)
 // 获取活动列表
 export const getActivityListAPI = (pageSize: number, page: number) => get('/v2/searchActivityList', { pageSize, page })
+// 通过分支进行模糊查询
+export const getActivityByBranch = (branch: string) => get('/v2/searchActivityByBranch', { branch })
