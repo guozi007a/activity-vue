@@ -192,11 +192,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
                 }
             }
             test(form)
-            console.log('submit!')
             // console.log('form: ', form)
-        } else {
-            console.log('error submit!')
-            return false
         }
     })
 }

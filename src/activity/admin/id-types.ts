@@ -50,3 +50,12 @@ export const idInfo: Record<keyof FormConfig, infoValConfig> = {
     familyName: { label: '公会名称', type: 2, paramType: 2 },
     birthday: { label: '生日日期', type: 3, paramType: 2 },
 }
+
+// 新增活动
+export interface AddActivityFormConfig {
+    branch: string
+    name: string
+    tag: string
+    date: string
+    url: string
+}

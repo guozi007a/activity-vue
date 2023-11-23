@@ -20,6 +20,10 @@
                                 <el-icon><icon-menu /></el-icon>
                                 <span>主面板</span>
                             </el-menu-item>
+                            <el-menu-item index="/admin/activity-add">
+                                <el-icon><FirstAidKit /></el-icon>
+                                <span>活动新增</span>
+                            </el-menu-item>
                             <el-menu-item index="/admin/activity-list">
                                 <el-icon><Grid /></el-icon>
                                 <span>活动列表</span>
@@ -124,7 +128,8 @@ import {
     Operation,
     CirclePlus,
     Aim,
-    Grid
+    Grid,
+    FirstAidKit
 } from '@element-plus/icons-vue'
 
 document.title = '活动管理后台'

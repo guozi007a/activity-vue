@@ -1,8 +1,8 @@
 <template>
-    <el-table :data="tableList" stripe :row-key="setRowKey">
-        <el-table-column label="编号">
+    <el-table :data="activityList" stripe :row-key="setRowKey">
+        <el-table-column label="编号" :width="100">
             <template #default="sort">
-                <span>{{ sort.$index + 1 + '_' + currentPage }}</span>
+                <span>{{ sort.row.id }}</span>
             </template>
         </el-table-column>
         <el-table-column prop="branch" label="活动分支">
@@ -36,12 +36,12 @@
             </template>
         </el-table-column>
         <el-table-column prop="name" label="活动名称" />
-        <el-table-column prop="tag" label="活动类型">
+        <el-table-column prop="tag" label="活动类型" :width="120">
             <template #default="type">
                 <el-tag>{{ type.row.tag }}</el-tag>
             </template>
         </el-table-column>
-        <el-table-column prop="date" label="活动日期">
+        <el-table-column prop="date" label="活动日期" :width="240">
             <template #default="date">
                 <span class="date-cell">{{ date.row.date }}</span>
             </template>
@@ -49,7 +49,7 @@
         <el-table-column label="操作">
             <template #default="oper">
                 <el-button type="primary" size="small">
-                    <a :href="oper.row.url" target="_blank" style="color: #fff;">去活动页</a>
+                    <a :href="'/activity_/' + oper.row.url" target="_blank" style="color: #fff;">去活动页</a>
                 </el-button>
             </template>
         </el-table-column>
@@ -58,7 +58,7 @@
         <el-pagination 
             background 
             layout="prev, pager, next, jumper, total, sizes" 
-            :total="tableData.length" 
+            :total="total" 
             :page-sizes="[10, 20, 50, 100]"
             :page-size="pageSize"
             :current-page="currentPage"
@@ -134,34 +134,31 @@
 </style>
   
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import useClipboard from 'vue-clipboard3'
+import { getActivityListAPI } from '~/api/admin';
 import {
     CopyDocument,
     Search,
 } from '@element-plus/icons-vue';
-
-const inpRef = ref<HTMLInputElement>()
-const text = ref<string>('')
-const pageSize = ref<number>(20)
-const currentPage = ref<number>(1)
+import { onMounted } from 'vue';
 
 interface RowConfig<T> {
+    id: number
     branch: T
     name: T
     tag: T
     date: T
     url: T
+    createDate: number
 }
-const tableData: RowConfig<string>[] = new Array(202).fill(
-    {
-        branch: 'play_2399',
-        name: '感恩节回馈',
-        tag: '节日活动',
-        date: '11月23日 11:00 - 11月26日 24:00',
-        url: '/activity_/play_2399',
-    }
-)
+
+const inpRef = ref<HTMLInputElement>()
+const text = ref<string>('')
+const pageSize = ref<number>(20)
+const currentPage = ref<number>(1)
+const activityList = ref<RowConfig<string>[]>([])
+const total = ref<number>(0)
 
 const setRowKey = (row: RowConfig<string>): string => row.branch
 
@@ -188,6 +185,18 @@ const handleCurrentPage = (val: number) => {
     // console.log('current page: ', val)
     currentPage.value = val
 }
-const tableList = computed(() => tableData.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value))
+
+const getTableList = async (pageSize: number, page: number) => {
+    const res = await getActivityListAPI(pageSize, page)
+    if (res.code == "0") {
+        activityList.value = res.data.list
+        total.value = res.data.total
+    } else {
+        ElMessage.error('获取活动列表失败~')
+    }
+}
+onMounted(() => {
+    getTableList(pageSize.value, currentPage.value)
+})
 </script>
   
