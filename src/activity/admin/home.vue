@@ -3,7 +3,7 @@
         <div class="common-layout">
             <el-container class="admin-wrap">
                 <el-header>
-                    <a href="https://www.kktv5.com/" class="logo-img">
+                    <a href="/" class="logo-img">
                         <img src="https://rescdn.kktv8.com/kk-web-res/main/logo.png" alt="">
                     </a>
                 </el-header>

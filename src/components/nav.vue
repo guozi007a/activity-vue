@@ -5,23 +5,23 @@
                 <a href="/" class="logo_link">
                     <img src="https://rescdn.kktv8.com/kk-web-res/main/logo.png" alt="">
                 </a>
-                <a href="" class="left_link home_link">首页</a>
-                <a href="" class="left_link ground_link">
+                <a href="/" class="left_link home_link">首页</a>
+                <a href="/" class="left_link ground_link">
                     广场
                     <div class="left_link arrow"></div>
                 </a>
-                <a href="" class="left_link wall_link">荣誉墙</a>
-                <a href="" class="left_link activity_link">活动</a>
-                <a href="" class="left_link store">道具商城</a>
+                <a href="/" class="left_link wall_link">荣誉墙</a>
+                <a href="/" class="left_link activity_link">活动</a>
+                <a href="/" class="left_link store">道具商城</a>
                 <div class="search_wrap">
                     <input type="text" class="inp" placeholder="搜索主播昵称/ID">
                     <div class="search"></div>
                 </div>
             </div>
             <div class="nav_right">
-                <a href="" class="watched_link">看过</a>
-                <a href="" class="charge_link">充值</a>
-                <a href="" class="download_link">下载</a>
+                <a href="/" class="watched_link">看过</a>
+                <a href="/" class="charge_link">充值</a>
+                <a href="/" class="download_link">下载</a>
                 <p class="login_btn" v-if="!isLogin" @click="loginStore.open()">登录</p>
                 <div class="login-info" v-if="isLogin">
                     <div class="avatar">
