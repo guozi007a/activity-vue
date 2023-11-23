@@ -12,4 +12,6 @@ export const addActivityAPI = (formParams: AddActivityFormConfig) => postForm('/
 // 获取活动列表
 export const getActivityListAPI = (pageSize: number, page: number) => get('/v2/searchActivityList', { pageSize, page })
 // 通过分支进行模糊查询
-export const getActivityByBranch = (branch: string) => get('/v2/searchActivityByBranch', { branch })
+export const getActivityByBranchAPI = (branch: string) => get('/v2/searchActivityByBranch', { branch })
+// 删除分支
+export const removeActivityAPI = (branch: string) => post('/v2/removeActivity', { branch })

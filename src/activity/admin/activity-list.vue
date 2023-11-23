@@ -53,7 +53,7 @@
                     <el-button type="primary" size="small">
                         <a :href="'/activity_/' + oper.row.url" target="_blank" style="color: #fff;">去活动页</a>
                     </el-button>
-                    <el-button type="danger" size="small">删除分支</el-button>
+                    <el-button type="danger" size="small" @click="handleDelete(oper.row.branch)">删除分支</el-button>
                 </el-space>
             </template>
         </el-table-column>
@@ -140,7 +140,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import useClipboard from 'vue-clipboard3'
-import { getActivityListAPI, getActivityByBranch } from '~/api/admin';
+import { getActivityListAPI, getActivityByBranchAPI, removeActivityAPI } from '~/api/admin';
 import {
     CopyDocument,
     Search,
@@ -210,7 +210,7 @@ const handleSearch = async (branch: string) => {
         return
     }
     popVisible.value = false
-    const res = await getActivityByBranch(branch)
+    const res = await getActivityByBranchAPI(branch)
     if (res.code == "0") {
         activityList.value = res.data.list
         total.value = res.data.total
@@ -230,5 +230,15 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
     // 此时在声明ref时，需要设置为any，即const inpRef = ref<any>()
     e.key == 'Enter' && inpRef.value && document.activeElement == inpRef.value.input && handleSearch(text.value)
 })
+const handleDelete = async (branch: string) => {
+    const res = await removeActivityAPI(branch)
+    if (res.code == "0") {
+        activityList.value = activityList.value.filter(v => v.branch != branch)
+        total.value = total.value - 1
+        ElMessage.success('分支已删除')
+    } else {
+        ElMessage.error(res.message)
+    }
+}
 </script>
   
