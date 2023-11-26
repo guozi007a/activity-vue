@@ -38,6 +38,18 @@
                                     <el-menu-item index="/admin/id-manage/search"><el-icon><Aim /></el-icon>账号查询</el-menu-item>
                                 </el-menu-item-group>
                             </el-sub-menu>
+                            <el-sub-menu index="/admin/event-tracking-logs">
+                                <template #title>
+                                    <el-icon><MessageBox /></el-icon>
+                                    <span>埋点记录</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <el-menu-item index="/admin/event-tracking-logs/interactive">
+                                        <el-icon><SetUp /></el-icon>
+                                        <span>交互埋点</span>
+                                    </el-menu-item>
+                                </el-menu-item-group>
+                            </el-sub-menu>
                         </el-menu>
                     </el-aside>
                     <el-container class="admin-content-wrap">
@@ -129,7 +141,9 @@ import {
     CirclePlus,
     Aim,
     Grid,
-    FirstAidKit
+    FirstAidKit,
+    MessageBox,
+    SetUp
 } from '@element-plus/icons-vue'
 
 document.title = '活动管理后台'

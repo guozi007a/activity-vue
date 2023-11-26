@@ -4,6 +4,7 @@ const ActivityList = () => import('~/activity/admin/activity-list.vue')
 const ActivityAdd = () => import('~/activity/admin/activity-add.vue')
 const IdCreate = () => import('~/activity/admin/id-create.vue')
 const IdSearch = () => import('~/activity/admin/id-search.vue')
+const EventTrackingInteractive = () => import('~/activity/admin/event-tracking-logs/interactive.vue')
 
 export const adminRoutes = [
     { 
@@ -19,6 +20,12 @@ export const adminRoutes = [
                 children: [
                     { path: 'create', component: IdCreate },
                     { path: 'search', component: IdSearch },
+                ]
+            },
+            {
+                path: 'event-tracking-logs',
+                children: [
+                    { path: 'interactive', component: EventTrackingInteractive },
                 ]
             }
         ]

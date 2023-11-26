@@ -35,11 +35,15 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElTale: typeof import('element-plus/es')['ElTale']
     ElText: typeof import('element-plus/es')['ElText']
     Login: typeof import('./src/components/login.vue')['default']
     Nav: typeof import('./src/components/nav.vue')['default']
     ProjectIntro: typeof import('./src/components/project-intro.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+  }
+  export interface ComponentCustomProperties {
+    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
   }
 }
