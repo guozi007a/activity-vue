@@ -29,9 +29,9 @@
                         <div class="third-wrap">
                             <p class="third-title">第三方账号登录</p>
                             <div class="third">
-                                <img src="http://beta.kktv8.com/images/user/wx.png" alt="">
-                                <img src="http://beta.kktv8.com/images/user/qq.png" alt="">
-                                <img src="http://beta.kktv8.com/images/user/wb.png" alt="">
+                                <img src="https://www.kktv5.com/images/user/wx.png" alt="">
+                                <img src="http://www.kktv5.com/images/user/qq.png" alt="">
+                                <img src="http://www.kktv5.com/images/user/wb.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -227,9 +227,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useLoginStore } from '~/store/useLoginStore';
+import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore.js';
 import { Close } from '@element-plus/icons-vue';
 
-const loginStore = useLoginStore()
+const loginStore = useLoginDialogVisibleStore()
 const tabKey = ref<number>(0)
 </script>

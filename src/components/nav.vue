@@ -183,8 +183,8 @@
 </style>
 
 <script setup lang="ts">
-import { useLoginStore } from '~/store/useLoginStore'
+import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore.js'
 
-const loginStore = useLoginStore()
+const loginStore = useLoginDialogVisibleStore()
 const isLogin = false
 </script>
