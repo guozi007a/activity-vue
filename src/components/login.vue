@@ -189,12 +189,13 @@
                         .third {
                             display: flex;
                             justify-content: center;
-                            gap: 12px;
+                            gap: 16px;
                             margin-top: 15px;
                             img {
                                 width: 42px;
                                 height: 42px;
                                 border-radius: 50%;
+                                cursor: pointer;
                             }
                         }
                     }
