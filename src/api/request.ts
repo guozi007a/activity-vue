@@ -7,6 +7,7 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
+    console.log('config: ', config)
     if (config.params?.userId && config.params?.token) {
         config.headers.userId = config.params.userId
         config.headers.token = config.params.token

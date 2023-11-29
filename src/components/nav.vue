@@ -184,7 +184,11 @@
 
 <script setup lang="ts">
 import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore.js'
+import { useLoginStore } from '~/store/useLoginStore'
 
 const loginStore = useLoginDialogVisibleStore()
 const isLogin = false
+const profileStore = useLoginStore()
+const profile = profileStore.profile
+console.log('profile: ', profile)
 </script>

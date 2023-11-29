@@ -1,9 +1,9 @@
 <template>
     <Transition name="login">
         <div class="login-wrap" v-if="loginStore.visible">
-            <div class="login-mask" @click="loginStore.close()"></div>
+            <div class="login-mask" @click="handleClose"></div>
         <div class="login-container">
-            <div class="login-x" @click="loginStore.close()">
+            <div class="login-x" @click="handleClose">
                 <el-icon><Close /></el-icon>
             </div>
             <div class="login-main">
@@ -13,15 +13,15 @@
                 </ul>
                 <div class="login-content">
                     <div class="cont1">
-                        <input type="text" class="username" autofocus placeholder="用户名">
-                        <input type="text" class="password" placeholder="密码">
+                        <input type="text" class="username" autofocus placeholder="用户名" v-model.number="val">
+                        <input type="text" class="password" placeholder="密码" v-model="psd">
                         <div class="tools">
                             <label for="save" class="save">
                                 <input type="checkbox">7天内记住我
                             </label>
                             <p class="forget">忘记密码</p>
                         </div>
-                        <p class="login-btn">登录</p>
+                        <p class="login-btn" @click="handleLogin(val ?? 0, psd)">登录</p>
                         <p class="registe">
                             <span>还没有账号？</span>
                             立即注册
@@ -45,7 +45,7 @@
 <style scoped lang="scss">
 .login-wrap {
     position: fixed;
-    z-index: 9999;
+    z-index: 99;
     top: 0;
     left: 0;
     width: 100%;
@@ -229,8 +229,30 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore.js';
+import { useLoginStore } from '~/store/useLoginStore'
 import { Close } from '@element-plus/icons-vue';
 
 const loginStore = useLoginDialogVisibleStore()
 const tabKey = ref<number>(0)
+const profileStore = useLoginStore()
+const val = ref<number | undefined>()
+const psd = ref<string>('')
+
+const handleClear = () => {
+    val.value = undefined
+    psd.value = ''
+}
+const handleClose = () => {
+    loginStore.close()
+    handleClear()
+}
+const handleLogin = (userId: number, password: string) => {
+    console.log(`userId: ${userId} password: ${password}`)
+    if (!userId || !password) {
+        ElMessage.warning('账号密码不能为空')
+        return
+    }
+    profileStore.login(userId, password)
+    handleClear()
+}
 </script>

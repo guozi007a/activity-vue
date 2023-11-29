@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { loginAPI, logoutAPI, profileInfoAPI } from '~/api/page'
 
 export interface ProfileConfig {
     userId: number
@@ -28,5 +29,27 @@ export interface ProfileConfig {
 
 export const useLoginStore = defineStore('login', {
     state: () => ({ profile: {} }),
-    actions: {},
+    actions: {
+        async login(userId: number, password: string) {
+            const res = await loginAPI(userId, password)
+            if (res.code == "0") {
+                ElMessage.success("登录成功")
+                window.location.reload()
+            } else {
+                ElMessage.error(res.message)
+            }
+        },
+        async logout(userId: number) {
+            const res = await logoutAPI(userId)
+            if (res.code == "0") {
+                window.location.reload()
+            } else {
+                ElMessage.error(res.message)
+            }
+        },
+        async getProfile() {
+            const res = await profileInfoAPI()
+            this.profile = res.data ?? {}
+        }
+    },
 })
