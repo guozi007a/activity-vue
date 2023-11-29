@@ -252,7 +252,8 @@ window.addEventListener('keyup', (e: KeyboardEvent) => {
 
 const handleConfirm = async (userId: number, paramType: number, key: keyof FormConfig, value: string | number) => {
     // console.log(`userid: ${userId}, paramtype: ${paramType}, key: ${key}, value: ${value}`)
-    if (!userId || !paramType || !key || !value) {
+    // nickName不能为空，其他值不会为空或者可以为空
+    if (!userId || !paramType || !key || !userInfo.nickName) {
         ElMessage.warning('修改失败：缺少必要参数')
         return
     }
