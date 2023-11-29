@@ -7,8 +7,20 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
+    if (config.params?.userId && config.params?.token) {
+        config.headers.userId = config.params.userId
+        config.headers.token = config.params.token
+        delete config.params.userId
+        delete config.params.token
+    } else if (config.data?.userId && config.data?.token) {
+        config.headers.userId = config.data.userId
+        config.headers.token = config.data.token
+        delete config.data.userId
+        delete config.data.token
+    }
+    config.withCredentials = true
     return config;
-  }, function (error) {
+}, function (error) {
     // 对请求错误做些什么
     return Promise.reject(error);
 });
@@ -17,7 +29,7 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
     // 对响应数据做点什么
     return response.data;
-  }, function (error) {
+}, function (error) {
     // 对响应错误做点什么
     return Promise.reject(error);
 });
