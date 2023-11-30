@@ -7,7 +7,6 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
-    console.log('config: ', config)
     if (config.params?.userId && config.params?.token) {
         config.headers.userId = config.params.userId
         config.headers.token = config.params.token
@@ -19,7 +18,6 @@ instance.interceptors.request.use(function (config) {
         delete config.data.userId
         delete config.data.token
     }
-    config.withCredentials = true
     return config;
 }, function (error) {
     // 对请求错误做些什么
@@ -48,6 +46,17 @@ export const get = (url: string, params?: Record<string, any>): Promise<ResType>
         url,
         method: 'get',
         params
+    })
+}
+
+// get request only for profile
+// 目的是只允许在获取profile时携带cookie，其他请求下不携带
+export const getPro = (url: string, params?: Record<string, any>): Promise<ResType> => {
+    return instance({
+        url,
+        method: 'get',
+        params,
+        withCredentials: true,
     })
 }
 

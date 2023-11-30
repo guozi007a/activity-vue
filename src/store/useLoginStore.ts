@@ -32,7 +32,7 @@ const initProfile: Partial<ProfileConfig> = {}
 export const useLoginStore = defineStore('login', {
     state: () => ({
         profile: initProfile,
-        isProfileLoaded: false, // profile文件是否加载完成，为了解决加载完成前后造成的dom闪现问题
+        isProfileLoaded: false, // profile文件是否加载完成，为了解决加载完成前后造成的dom频闪问题
     }),
     actions: {
         async login(userId: number, password: string) {
@@ -63,7 +63,6 @@ export const useLoginStore = defineStore('login', {
         async getProfile() {
             this.isProfileLoaded = false
             const res = await profileInfoAPI()
-            console.log('data: ', res.data)
             this.profile = res.data ?? initProfile
             this.isProfileLoaded = true
         }
