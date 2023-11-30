@@ -49,6 +49,10 @@ export const useLoginStore = defineStore('login', {
             }
         },
         async logout(userId: number) {
+            if (!userId) {
+                ElMessage.warning('userId不能为空')
+                return
+            }
             const res = await logoutAPI(userId)
             if (res.code == "0") {
                 let timer = 0

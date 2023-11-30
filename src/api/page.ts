@@ -1,4 +1,4 @@
-import { get, post, getPro } from "./request";
+import { post, getPro } from "./request";
 
 // 登录
 export const loginAPI = (userId: number, password: string) => post('/v3/login', { userId, password })

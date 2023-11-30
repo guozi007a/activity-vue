@@ -1,6 +1,6 @@
 <template>
     <div class="search_wrap"></div>
-    <el-table :data="tableList.slice((currentPage - 1) * 20, currentPage * 20)" stripe>
+    <el-table :data="tableList.slice((currentPage - 1) * pageSize, currentPage * pageSize)" stripe>
         <el-table-column label="编号" :width="150">
             <template #default="sort">
                 <!-- <span>{{ sort.row.id }}</span> -->
@@ -27,7 +27,7 @@
             background 
             layout="prev, pager, next, jumper, total" 
             :total="tableList.length" 
-            :default-page-size="20"
+            :default-page-size="pageSize"
             :current-page="currentPage"
             @update:current-page="changeCurrentPage"
             hide-on-single-page
@@ -74,7 +74,9 @@ import { ref } from 'vue';
 import { InteractiveConfig } from './event-tracking-types';
 import { dayjs } from 'element-plus'
 
-const initList = new Array(100).fill({
+const pageSize = 50
+
+const initList = new Array(102).fill({
     id: 100,
     date: 1701005744324,
     userId: 10323,
