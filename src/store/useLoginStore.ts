@@ -27,14 +27,23 @@ export interface ProfileConfig {
     token: string
 }
 
+const initProfile: Partial<ProfileConfig> = {}
+
 export const useLoginStore = defineStore('login', {
-    state: () => ({ profile: {} }),
+    state: () => ({
+        profile: initProfile,
+        isProfileLoaded: false, // profile文件是否加载完成，为了解决加载完成前后造成的dom闪现问题
+    }),
     actions: {
         async login(userId: number, password: string) {
             const res = await loginAPI(userId, password)
             if (res.code == "0") {
                 ElMessage.success("登录成功")
-                window.location.reload()
+                let timer = 0
+                timer = setTimeout(() => {
+                    window.location.reload()
+                    window.clearTimeout(timer)
+                }, 300)
             } else {
                 ElMessage.error(res.message)
             }
@@ -42,14 +51,21 @@ export const useLoginStore = defineStore('login', {
         async logout(userId: number) {
             const res = await logoutAPI(userId)
             if (res.code == "0") {
-                window.location.reload()
+                let timer = 0
+                timer = setTimeout(() => {
+                    window.location.reload()
+                    window.clearTimeout(timer)
+                }, 300)
             } else {
                 ElMessage.error(res.message)
             }
         },
         async getProfile() {
+            this.isProfileLoaded = false
             const res = await profileInfoAPI()
-            this.profile = res.data ?? {}
+            console.log('data: ', res.data)
+            this.profile = res.data ?? initProfile
+            this.isProfileLoaded = true
         }
     },
 })

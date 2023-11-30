@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import { watchEffect } from 'vue';
 import Nav from '~/components/nav.vue'
 import Login from './components/login.vue';
 import { useLoginStore } from '~/store/useLoginStore'
@@ -14,5 +15,8 @@ import { useLoginStore } from '~/store/useLoginStore'
 // 后台不需要显示Nav
 const isNavVisible = location.pathname.includes('activity_')
 const profileStore = useLoginStore()
-profileStore.getProfile()
+
+watchEffect(() => {
+    profileStore.getProfile()
+})
 </script>

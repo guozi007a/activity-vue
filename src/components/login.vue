@@ -236,7 +236,7 @@ const loginStore = useLoginDialogVisibleStore()
 const tabKey = ref<number>(0)
 const profileStore = useLoginStore()
 const val = ref<number | undefined>()
-const psd = ref<string>('')
+const psd = ref<string>('Aa123456')
 
 const handleClear = () => {
     val.value = undefined
@@ -247,7 +247,6 @@ const handleClose = () => {
     handleClear()
 }
 const handleLogin = (userId: number, password: string) => {
-    console.log(`userId: ${userId} password: ${password}`)
     if (!userId || !password) {
         ElMessage.warning('账号密码不能为空')
         return

@@ -22,15 +22,17 @@
                 <a href="/" class="watched_link">看过</a>
                 <a href="/" class="charge_link">充值</a>
                 <a href="/" class="download_link">下载</a>
-                <p class="login_btn" v-if="!isLogin" @click="loginStore.open()">登录</p>
-                <div class="login-info" v-if="isLogin">
-                    <div class="avatar">
-                        <img src="http://testares.kktv8.com/kktv/portrait/20220422/11/10000338_722862.jpg!48" alt="">
+                <template v-if="profileStore.isProfileLoaded">
+                    <div class="login-info" v-if="profileStore.profile.isLogin">
+                        <div class="avatar">
+                            <img :src="profileStore.profile.avatar" alt="">
+                        </div>
+                        <div class="exit-wrap">
+                            <p class="exit" @click="profileStore.logout(profileStore.profile.userId ?? 0)">退出</p>
+                        </div>
                     </div>
-                    <div class="exit-wrap">
-                        <p class="exit">退出</p>
-                    </div>
-                </div>
+                    <p class="login_btn" v-else @click="loginStore.open()">登录</p>
+                </template>
             </div>
         </div>
     </nav>
@@ -141,6 +143,7 @@
                     width: 36px;
                     height: 36px;
                     border-radius: 50%;
+                    cursor: pointer;
                     img {
                         width: 100%;
                         height: 100%;
@@ -187,8 +190,5 @@ import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore.j
 import { useLoginStore } from '~/store/useLoginStore'
 
 const loginStore = useLoginDialogVisibleStore()
-const isLogin = false
 const profileStore = useLoginStore()
-const profile = profileStore.profile
-console.log('profile: ', profile)
 </script>
