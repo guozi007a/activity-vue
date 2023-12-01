@@ -41,7 +41,7 @@
                             <el-sub-menu index="/admin/event-tracking-logs">
                                 <template #title>
                                     <el-icon><MessageBox /></el-icon>
-                                    <span>埋点记录</span>
+                                    <span>埋点日志</span>
                                 </template>
                                 <el-menu-item-group>
                                     <el-menu-item index="/admin/event-tracking-logs/interactive">
