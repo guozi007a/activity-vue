@@ -17,11 +17,11 @@
                         <input type="text" class="password" placeholder="密码" v-model="psd">
                         <div class="tools">
                             <label for="save" class="save">
-                                <input type="checkbox">7天内记住我
+                                <input type="checkbox" v-model="checked" />7天内记住我
                             </label>
                             <p class="forget">忘记密码</p>
                         </div>
-                        <p class="login-btn" @click="handleLogin(val ?? 0, psd)">登录</p>
+                        <p class="login-btn" @click="handleLogin(val ?? 0, psd, checked)">登录</p>
                         <p class="registe">
                             <span>还没有账号？</span>
                             立即注册
@@ -151,6 +151,7 @@
                         .save {
                             display: flex;
                             align-items: center;
+                            gap: 4px;
                         }
                         .forget {
                             cursor: pointer;
@@ -237,6 +238,7 @@ const tabKey = ref<number>(0)
 const profileStore = useLoginStore()
 const val = ref<number | undefined>()
 const psd = ref<string>('Aa123456')
+const checked = ref<boolean>(false)
 
 const handleClear = () => {
     val.value = undefined
@@ -246,12 +248,12 @@ const handleClose = () => {
     loginStore.close()
     handleClear()
 }
-const handleLogin = (userId: number, password: string) => {
+const handleLogin = (userId: number, password: string, checked?: boolean) => {
     if (!userId || !password) {
         ElMessage.warning('账号密码不能为空')
         return
     }
-    profileStore.login(userId, password)
+    profileStore.login(userId, password, checked)
     handleClear()
 }
 </script>

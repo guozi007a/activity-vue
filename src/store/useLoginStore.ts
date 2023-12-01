@@ -35,10 +35,15 @@ export const useLoginStore = defineStore('login', {
         isProfileLoaded: false, // profile文件是否加载完成，为了解决加载完成前后造成的dom频闪问题
     }),
     actions: {
-        async login(userId: number, password: string) {
+        async login(userId: number, password: string, checked?: boolean) {
             const res = await loginAPI(userId, password)
             if (res.code == "0") {
                 ElMessage.success("登录成功")
+                if (checked) {
+                    localStorage.setItem("ACTIVITY_SESSION_ID", res.data.ACTIVITY_SESSION_ID)
+                } else {
+                    sessionStorage.setItem("ACTIVITY_SESSION_ID", res.data.ACTIVITY_SESSION_ID)
+                }
                 let timer = 0
                 timer = setTimeout(() => {
                     window.location.reload()
@@ -55,6 +60,8 @@ export const useLoginStore = defineStore('login', {
             }
             const res = await logoutAPI(userId)
             if (res.code == "0") {
+                localStorage.removeItem('ACTIVITY_SESSION_ID')
+                sessionStorage.removeItem('ACTIVITY_SESSION_ID')
                 let timer = 0
                 timer = setTimeout(() => {
                     window.location.reload()

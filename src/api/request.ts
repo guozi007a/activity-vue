@@ -50,13 +50,14 @@ export const get = (url: string, params?: Record<string, any>): Promise<ResType>
 }
 
 // get request only for profile
-// 目的是只允许在获取profile时携带cookie，其他请求下不携带
 export const getPro = (url: string, params?: Record<string, any>): Promise<ResType> => {
     return instance({
         url,
         method: 'get',
         params,
-        withCredentials: true,
+        headers: {
+            ACTIVITY_SESSION_ID: localStorage.getItem('ACTIVITY_SESSION_ID') ?? sessionStorage.getItem('ACTIVITY_SESSION_ID') ?? ''
+        }
     })
 }
 
