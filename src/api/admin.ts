@@ -15,3 +15,21 @@ export const getActivityListAPI = (pageSize: number, page: number) => get('/v2/s
 export const getActivityByBranchAPI = (branch: string) => get('/v2/searchActivityByBranch', { branch })
 // 删除分支
 export const removeActivityAPI = (branch: string) => post('/v2/removeActivity', { branch })
+// 充值秀币/欢乐券 1:1000
+export interface ChargeConfig {
+    userId: number
+    payId?: number
+    money?: number
+    coupon?: number
+}
+export const chargeAPI = (params: ChargeConfig) => post('/v2/charge', params)
+// 充值记录列表
+export interface ChargeLogsConfig {
+    userId?: number
+    payId?: number
+    dateStart?: string
+    dateEnd?: string
+    page?: number
+    pageSize?: number
+}
+export const getChargeLogs = (params: ChargeLogsConfig) => get('/v2/chargeList', params)

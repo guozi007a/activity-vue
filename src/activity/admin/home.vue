@@ -50,6 +50,22 @@
                                     </el-menu-item>
                                 </el-menu-item-group>
                             </el-sub-menu>
+                            <el-sub-menu index="/admin/charge">
+                                <template #title>
+                                    <el-icon><MessageBox /></el-icon>
+                                    <span>充值相关</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <el-menu-item index="/admin/charge/index">
+                                        <el-icon><SetUp /></el-icon>
+                                        <span>账号充值</span>
+                                    </el-menu-item>
+                                    <el-menu-item index="/admin/charge/logs">
+                                        <el-icon><SetUp /></el-icon>
+                                        <span>充值记录</span>
+                                    </el-menu-item>
+                                </el-menu-item-group>
+                            </el-sub-menu>
                         </el-menu>
                     </el-aside>
                     <el-container class="admin-content-wrap">
