@@ -13,6 +13,7 @@
         </el-select>
         <el-input placeholder="充值金额(元)" v-model.number="val" />
         <el-button type="primary" @click="charge">充值</el-button>
+        <el-button type="primary" @click="init">重置</el-button>
     </el-space>
 </template>
 
@@ -28,6 +29,12 @@ const exp = /^\d+$/
 const userId = ref<number | undefined>()
 const type = ref<string>('')
 const val = ref<number | undefined>()
+
+const init = () => {
+    userId.value = undefined
+    type.value = ''
+    val.value = undefined
+}
 
 const charge = async () => {
     if (!userId.value) {
@@ -62,9 +69,7 @@ const charge = async () => {
     const res = await chargeAPI(params)
     if (res.code == "0") {
         ElMessage.success('充值成功')
-        userId.value = undefined
-        type.value = ''
-        val.value = undefined
+        init()
     } else {
         ElMessage.error(res.message)
     }
