@@ -33,3 +33,5 @@ export interface ChargeLogsConfig {
     pageSize: number
 }
 export const getChargeLogsAPI = (params: ChargeLogsConfig) => get('/v2/chargeList', params)
+// 删除指定充值记录
+export const delChargeLogAPI = (id: number) => post('/v2/chargeDel', { id })

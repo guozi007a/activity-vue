@@ -40,7 +40,7 @@
                                 <el-text type="danger">[{{ thousandFormat(v.money || v.coupon) }}]</el-text>
                                 <el-text type="warning">&nbsp;{{ v.money ? '秀币' : '欢乐券' }}</el-text>
                             </p>
-                            <el-button type="danger" size="small" class="del">删除</el-button>
+                            <el-button type="danger" size="small" class="del" @click="handleDel(v.id)">删除</el-button>
                         </el-space>
                     </div>
                     <el-pagination 
@@ -117,7 +117,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getChargeLogsAPI } from '~/api/admin';
+import { getChargeLogsAPI, delChargeLogAPI } from '~/api/admin';
 import type { ChargeLogsConfig } from '~/api/admin'
 import { thousandFormat } from '~/utils/thousandFormat'
 import { dayjs } from 'element-plus' // element-plus默认支持dayjs，可以直接引入并使用
@@ -163,6 +163,20 @@ const search = async () => {
     if (res.code == "0") {
         logs.value = res.data.chargeList
         total.value = res.data.total
+    } else {
+        ElMessage.error(res.message)
+    }
+}
+
+const handleDel = async (id: number) => {
+    if (!id) {
+        ElMessage.warning('缺少必要参数')
+        return
+    }
+    const res = await delChargeLogAPI(id)
+    if (res.code === '0') {
+        ElMessage.success('删除成功')
+        logs.value = logs.value.filter((v => v.id != id))
     } else {
         ElMessage.error(res.message)
     }
