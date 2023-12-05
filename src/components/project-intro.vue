@@ -3,7 +3,7 @@
     <p class="p1">本项目使用vue3 + vite + go + mysql开发，用于活动项目的案例测试</p>
     <p class="p2">输入活动编号，去往活动地址：</p>
     <div class="inp-wrap">
-        <input type="text" autofocus class="inp" placeholder="4位数字，如2399" v-model="val" ref="inpRef">
+        <input type="text" autofocus class="inp" placeholder="活动编号，如2399" v-model="val" ref="inpRef">
         <a :href="`/activity_/play_${val}`" class="to-activity" @click="toActivity" ref="activityRef">GO</a>
     </div>
     <div class="admin-wrap">
@@ -82,8 +82,7 @@ const activityRef = ref<HTMLLinkElement>()
 const inpRef = ref<HTMLInputElement>()
 
 const toActivity = (e: Event) => {
-    const reg = /\d{4}/
-    if (!reg.test(val.value)) {
+    if (!val.value) {
         e.preventDefault()
         ElMessage.error('请输入正确的活动编号~')
     }
