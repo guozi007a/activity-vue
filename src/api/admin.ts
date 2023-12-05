@@ -27,9 +27,9 @@ export const chargeAPI = (params: ChargeConfig) => post('/v2/charge', params)
 export interface ChargeLogsConfig {
     userId?: number
     payId?: number
-    dateStart?: string
-    dateEnd?: string
-    page?: number
-    pageSize?: number
+    dateStart?: number
+    dateEnd?: number
+    page: number
+    pageSize: number
 }
-export const getChargeLogs = (params: ChargeLogsConfig) => get('/v2/chargeList', params)
+export const getChargeLogsAPI = (params: ChargeLogsConfig) => get('/v2/chargeList', params)
