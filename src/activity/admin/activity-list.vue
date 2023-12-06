@@ -54,7 +54,9 @@
         </el-table-column>
         <el-table-column prop="moudle" label="模块日期">
             <template #default="moudle">
-                <span class="date-cell">{{ dayjs(moudle.row.moudleStart).format('M月D日 HH:mm') }} - {{ dayjs(moudle.row.moudleEnd - 1000).format('M月D日 24:00') }}</span>
+                <span class="date-cell" v-if="moudle.row.moudleStart && moudle.row.moudleEnd">
+                    {{ dayjs(moudle.row.moudleStart).format('M月D日 HH:mm') }} - {{ dayjs(moudle.row.moudleEnd - 1000).format('M月D日 24:00') }}
+                </span>
             </template>
         </el-table-column>
         <el-table-column label="操作">
