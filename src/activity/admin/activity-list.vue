@@ -42,9 +42,19 @@
                 <el-tag>{{ type.row.tag }}</el-tag>
             </template>
         </el-table-column>
-        <el-table-column prop="date" label="活动日期" :width="240">
+        <el-table-column prop="createDate" label="创建时间">
+            <template #default="createDate">
+                <span class="date-cell">{{ dayjs(createDate.row.createDate).format('YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="date" label="活动日期">
             <template #default="date">
-                <span class="date-cell">{{ date.row.date }}</span>
+                <span class="date-cell">{{ dayjs(date.row.dateStart).format('M月D日 HH:mm') }} - {{ dayjs(date.row.dateEnd - 1000).format('M月D日 24:00') }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="moudle" label="模块日期">
+            <template #default="moudle">
+                <span class="date-cell">{{ dayjs(moudle.row.moudleStart).format('M月D日 HH:mm') }} - {{ dayjs(moudle.row.moudleEnd - 1000).format('M月D日 24:00') }}</span>
             </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -139,21 +149,18 @@
   
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { dayjs } from 'element-plus';
 import useClipboard from 'vue-clipboard3'
 import { getActivityListAPI, getActivityByBranchAPI, removeActivityAPI } from '~/api/admin';
+import type { AddActivityFormConfig } from './id-types';
 import {
     CopyDocument,
     Search,
 } from '@element-plus/icons-vue';
 import { onMounted } from 'vue';
 
-interface RowConfig<T> {
+interface RowConfig extends AddActivityFormConfig {
     id: number
-    branch: T
-    name: T
-    tag: T
-    date: T
-    url: T
     createDate: number
 }
 
@@ -161,11 +168,11 @@ const inpRef = ref<any>()
 const text = ref<string>('')
 const pageSize = ref<number>(20)
 const currentPage = ref<number>(1)
-const activityList = ref<RowConfig<string>[]>([])
+const activityList = ref<RowConfig[]>([])
 const total = ref<number>(0)
 const popVisible = ref<boolean>(false)
 
-const setRowKey = (row: RowConfig<string>): string => row.branch
+const setRowKey = (row: RowConfig): string => row.branch
 
 const { toClipboard } = useClipboard()
 const copy = async (text: string) => {

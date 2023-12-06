@@ -56,6 +56,9 @@ export interface AddActivityFormConfig {
     branch: string
     name: string
     tag: string
-    date: string
     url: string
+    dateStart: string
+    dateEnd: string
+    moudleStart?: string
+    moudleEnd?: string
 }
