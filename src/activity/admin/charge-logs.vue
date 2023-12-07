@@ -37,8 +37,8 @@
                                 在
                                 <el-text type="warning">[{{ dayjs(v.date).format("YYYY-MM-DD HH:mm:ss") }}]</el-text>
                                 充值了
-                                <el-text type="danger">[{{ thousandFormat(v.money || v.coupon) }}]</el-text>
-                                <el-text type="warning">&nbsp;{{ v.money ? '秀币' : '欢乐券' }}</el-text>
+                                <el-text type="danger">[{{ thousandFormat(v.count) }}]</el-text>
+                                <el-text type="warning">&nbsp;{{ v.type == "money" ? '秀币' : '欢乐券' }}</el-text>
                             </p>
                             <el-button type="danger" size="small" class="del" @click="handleDel(v.id)">删除</el-button>
                         </el-space>
@@ -128,8 +128,8 @@ interface LogConfig {
     payId: number
     nickName: string
     payNick: string
-    money: number
-    coupon: number
+    type: string
+    count: number
     date: number
 }
 

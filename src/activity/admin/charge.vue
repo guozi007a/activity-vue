@@ -59,11 +59,8 @@ const charge = async () => {
     }
     const params: ChargeConfig = {
         userId: userId.value,
-    }
-    if (type.value == 'money') {
-        params.money = val.value
-    } else if (type.value == 'coupon') {
-        params.coupon = val.value
+        type: type.value,
+        count: val.value,
     }
 
     const res = await chargeAPI(params)

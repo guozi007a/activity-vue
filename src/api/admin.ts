@@ -26,8 +26,8 @@ export const removeActivityAPI = (branch: string) => post('/v2/removeActivity', 
 export interface ChargeConfig {
     userId: number
     payId?: number
-    money?: number
-    coupon?: number
+    type: string
+    count: number // 秀币数或者欢乐券数，不是rmb
 }
 export const chargeAPI = (params: ChargeConfig) => post('/v2/charge', params)
 
