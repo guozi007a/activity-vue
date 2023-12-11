@@ -62,14 +62,3 @@ export interface AddActivityFormConfig {
     moudleStart?: string
     moudleEnd?: string
 }
-
-export interface AddActivityParamConfig {
-    branch: string
-    name: string
-    tag: string
-    url: string
-    dateStart: number
-    dateEnd: number
-    moudleStart?: number
-    moudleEnd?: number    
-}
