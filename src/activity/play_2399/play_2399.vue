@@ -8,7 +8,7 @@
         <div class="show_cont">
             <div class="cont cont1">
                 <p class="p1">每日充值10元及以上即可签到，签到时必得感恩节勋章1天，有机会获得盲盒奖励！<span>注：每个ID每日仅限领取一次</span></p>
-                <div class="receive" :class="receiveStatus[status]"></div>
+                <div class="receive" :class="receiveStatus[status]" @click="status == 1 && sign()"></div>
             </div>
             <div class="cont cont2">
                 <p class="p1">11月23日11:00-11月24日24:00，用户充值达到指定金额可翻开卡牌并获得奖励。每轮可翻4张卡牌，翻牌次数越多，中大奖概率越高，最高可翻出爱满星河！（该环节可循环完成）</p>
@@ -59,8 +59,9 @@
 import { ref, onMounted } from 'vue';
 import { lookGifts } from './dep'
 import { useLoginStore } from '~/store/useLoginStore';
-import { getSignInfoAPI } from '~/api/play_2399';
+import { getSignInfoAPI, SignAPI } from '~/api/play_2399';
 import type { SignInfoParam } from '~/api/play_2399'
+import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore';
 
 document.title = '感恩回馈季'
 const receiveStatus = ['', 'active', 'received']
@@ -69,6 +70,35 @@ const dialogNum = ref<number>(-1)
 const status = ref<number>(0)
 
 const profile = useLoginStore().profile
+const loginDialog = useLoginDialogVisibleStore()
+
+const sign = async () => {
+    if (!profile.isLogin) {
+        loginDialog.open()
+        return
+    }
+    const params: SignInfoParam = {
+        userId: profile.userId!,
+        token: profile.token!,
+    }
+    const res = await SignAPI(params)
+    if (res.code === "0") {
+        let str = ''
+        res.data.forEach((v: string, i: number) => {
+            if (i == 0) {
+                str = v
+            } else {
+                if (v) {
+                    str += `、${v}`
+                }
+            }
+        })
+        ElMessage.success(`签到成功！恭喜获得${str}!`)
+        status.value = 2
+    } else {
+        ElMessage.error(res.message)
+    }
+}
 
 onMounted(async () => {
     if (profile.isLogin) {

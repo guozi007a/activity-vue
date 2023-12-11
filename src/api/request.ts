@@ -7,17 +7,26 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
-    if (config.params?.userId && config.params?.token) {
-        config.headers.userId = config.params.userId
-        config.headers.token = config.params.token
-        delete config.params.userId
-        delete config.params.token
-    } else if (config.data?.userId && config.data?.token) {
-        config.headers.userId = config.data.userId
-        config.headers.token = config.data.token
-        delete config.data.userId
-        delete config.data.token
+    console.log('config data: ', config.data, typeof config.data)
+    console.log('parse data: ', config.data && JSON.parse(config.data))
+    if (config.data) {
+        parseData = JSON.parse(config.data)
+        if (parseData.userId && parseData.token) {
+            config.headers.userId = parseData.userId
+            config.headers.token = parseData.token
+        }
     }
+    // if (config.params?.userId && config.params?.token) {
+    //     config.headers.userId = config.params.userId
+    //     config.headers.token = config.params.token
+    //     delete config.params.userId
+    //     delete config.params.token
+    // } else if (config.data?.userId && config.data?.token) {
+    //     config.headers.userId = config.data.userId
+    //     config.headers.token = config.data.token
+    //     delete config.data.userId
+    //     delete config.data.token
+    // }
     return config;
 }, function (error) {
     // 对请求错误做些什么
