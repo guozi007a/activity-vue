@@ -56,10 +56,31 @@
 </style>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { lookGifts } from './dep'
+import { useLoginStore } from '~/store/useLoginStore';
+import { getSignInfoAPI } from '~/api/play_2399';
+import type { SignInfoParam } from '~/api/play_2399'
 
 document.title = '感恩回馈季'
 
 const dialogNum = ref<number>(-1)
+
+const profile = useLoginStore().profile
+
+onMounted(async () => {
+    console.log(profile.isLogin)
+    console.log(profile.userId)
+    console.log(profile.token)
+    if (profile.isLogin) {
+        const params: SignInfoParam = {
+            userId: profile.userId!,
+            token: profile.token!,
+        }
+        const res = await getSignInfoAPI(params)
+        if (res.code === "0") {
+            console.log(res.data)
+        }
+    }
+})
 </script>

@@ -27,7 +27,11 @@ export interface ProfileConfig {
     token: string
 }
 
-const initProfile: Partial<ProfileConfig> = {}
+const initProfile: Partial<ProfileConfig> = {
+    isActor: false,
+    isLogin: false,
+    token: "",
+}
 
 export const useLoginStore = defineStore('login', {
     state: () => ({
