@@ -18,16 +18,16 @@
             <el-input v-model="form.url" placeholder="用于跳转到活动页，一般和分支名相同，如play_2399" />
         </el-form-item>
         <el-form-item label="活动开始时间" prop="dateStart">
-            <el-date-picker v-model="form.dateStart" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="如2023-12-06 11:00:00" />
+            <el-date-picker v-model="form.dateStart" type="datetime" value-format="YYYY/MM/DD HH:mm:ss" placeholder="如2023-12-06 11:00:00" />
         </el-form-item>
         <el-form-item label="活动结束时间" prop="dateEnd">
-            <el-date-picker v-model="form.dateEnd" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="如2023-12-06 00:00:00" />
+            <el-date-picker v-model="form.dateEnd" type="datetime" value-format="YYYY/MM/DD HH:mm:ss" placeholder="如2023-12-06 00:00:00" />
         </el-form-item>
         <el-form-item label="模块开始时间" prop="moudleStart">
-            <el-date-picker v-model="form.moudleStart" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="如2023-12-06 11:00:00" />
+            <el-date-picker v-model="form.moudleStart" type="datetime" value-format="YYYY/MM/DD HH:mm:ss" placeholder="如2023-12-06 11:00:00" />
         </el-form-item>
         <el-form-item label="模块结束时间" prop="moudleEnd">
-            <el-date-picker v-model="form.moudleEnd" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="如2023-12-06 00:00:00" />
+            <el-date-picker v-model="form.moudleEnd" type="datetime" value-format="YYYY/MM/DD HH:mm:ss" placeholder="如2023-12-06 00:00:00" />
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="handleSubmit(formRef)">提交</el-button>
@@ -40,8 +40,8 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
-import type { AddActivityFormConfig } from './id-types'
+import { type FormInstance, type FormRules } from 'element-plus'
+import type { AddActivityFormConfig, AddActivityParamConfig } from './id-types'
 import { addActivityAPI } from '~/api/admin'
 
 const initForm: AddActivityFormConfig = {
@@ -71,7 +71,17 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.validate(async (valid) => {
         if (valid) {
-            const res = await addActivityAPI(form)
+            const params: AddActivityParamConfig = {
+                branch: form.branch,
+                name: form.name,
+                tag: form.tag,
+                url: form.url,
+                dateStart: new Date(form.dateStart).getTime(),
+                dateEnd: new Date(form.dateEnd).getTime(),
+            }
+            form.moudleStart && (params.moudleStart = new Date(form.moudleStart).getTime())
+            form.moudleEnd && (params.moudleEnd = new Date(form.moudleEnd).getTime())
+            const res = await addActivityAPI(params)
             if (res.code == "0") {
                 ElMessage.success('新增活动成功')
                 handleReset(formEl)
