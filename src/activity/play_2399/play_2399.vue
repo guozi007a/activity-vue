@@ -16,7 +16,9 @@
                 <p class="p3">本轮已充值金额：{{ profile.isLogin ? count : '--' }}元</p>
                 <ul class="cards">
                     <li class="card_li" :class="`card_li${i + 1}`" v-for="(v, i) in cardsInfo" :key="i">
-                        <div class="card" :class="`card${i + 1}`">
+                        <div class="card" :class="`card${i + 1} ${count >= cardsMoney[i] ? 'active' : ''}`"
+                            @clcik="count >= cardsMoney[i] && turnCard(i + 1)"    
+                        >
                             <template v-if="v.prizeId">
                                 <div class="gift_img">
                                     <img :src="imgById(v.prizeId)" alt="">
@@ -59,8 +61,8 @@
 import { ref, onMounted } from 'vue';
 import { lookGifts } from './dep'
 import { useLoginStore } from '~/store/useLoginStore';
-import { getSignInfoAPI, SignAPI, cardInfoAPI } from '~/api/play_2399';
-import type { SignInfoParam } from '~/api/play_2399'
+import { getSignInfoAPI, SignAPI, cardInfoAPI, turnCardAPI } from '~/api/play_2399';
+import type { SignInfoParam, TurnCardParam } from '~/api/play_2399'
 import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore';
 import { imgById } from '~/utils/commonUtils'
 
@@ -141,6 +143,22 @@ const getCardInfo = async () => {
     if (res.code === "0") {
         count.value = res.data.count
         cardsInfo.value = res.data.list
+    }
+}
+
+const turnCard = async (position: number) => {
+    if (!profile.isLogin) return
+    if(!position) return
+    const params: TurnCardParam = {
+        userId: profile.userId!,
+        token: profile.token!,
+        position,
+    }
+    const res = await turnCardAPI(params)
+    if (res.code === "0") {
+        
+    } else {
+        ElMessage.error(res.message)
     }
 }
 
