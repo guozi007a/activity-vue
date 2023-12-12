@@ -137,6 +137,10 @@
                                 margin: auto;
                                 box-sizing: border-box;
                                 padding-top: 30px;
+
+                                &.active {
+                                    cursor: pointer;
+                                }
     
                                 .gift_img {
                                     width: 92px;
