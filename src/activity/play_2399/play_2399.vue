@@ -15,7 +15,7 @@
                 <p class="p2">注：若每轮充值金额大于5000元时，多余部分不累计至下一轮，需翻完卡牌方可开启新一轮。</p>
                 <p class="p3">本轮已充值金额：9999元</p>
                 <ul class="cards">
-                    <li class="card_li" :class="`card_li${i + 1}`" v-for="(_, i) in [1, 2, 3, 4]" :key="i">
+                    <li class="card_li" :class="`card_li${i + 1}`" v-for="(_, i) in 4" :key="i">
                         <div class="card" :class="`card${i + 1}`">
                             <template v-if="false">
                                 <div class="gift_img">
@@ -24,7 +24,7 @@
                                 <p class="gift_name">礼物名称</p>
                             </template>
                         </div>
-                        <p class="card_money">xxxx元</p>
+                        <p class="card_money">{{ cardsMoney[i] }}元</p>
                         <div class="look" @click="dialogNum = i"></div>
                     </li>
                 </ul>
@@ -59,12 +59,13 @@
 import { ref, onMounted } from 'vue';
 import { lookGifts } from './dep'
 import { useLoginStore } from '~/store/useLoginStore';
-import { getSignInfoAPI, SignAPI } from '~/api/play_2399';
+import { getSignInfoAPI, SignAPI, cardInfoAPI } from '~/api/play_2399';
 import type { SignInfoParam } from '~/api/play_2399'
 import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore';
 
 document.title = '感恩回馈季'
 const receiveStatus = ['', 'active', 'received']
+const cardsMoney = [100, 500, 2000, 5000]
 
 const dialogNum = ref<number>(-1)
 const status = ref<number>(0)
@@ -100,16 +101,32 @@ const sign = async () => {
     }
 }
 
-onMounted(async () => {
-    if (profile.isLogin) {
-        const params: SignInfoParam = {
-            userId: profile.userId!,
-            token: profile.token!,
-        }
-        const res = await getSignInfoAPI(params)
-        if (res.code === "0") {
-            status.value = res.data
-        }
+const getSignInfo = async () => {
+    if (!profile.isLogin) return
+    const params: SignInfoParam = {
+        userId: profile.userId!,
+        token: profile.token!,
     }
+    const res = await getSignInfoAPI(params)
+    if (res.code === "0") {
+        status.value = res.data
+    }
+}
+
+const getCardInfo = async () => {
+    if (!profile.isLogin) return
+    const params: SignInfoParam = {
+        userId: profile.userId!,
+        token: profile.token!,
+    }
+    const res = await cardInfoAPI(params)
+    if (res.code === "0") {
+        status.value = res.data
+    }
+}
+
+onMounted(() => {
+    getSignInfo()
+    getCardInfo()
 })
 </script>

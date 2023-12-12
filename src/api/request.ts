@@ -23,7 +23,7 @@ instance.interceptors.request.use(function (config) {
         // 在post请求中，参数是需要转化的，不能直接传对象。
         // 为了能将userId & token放到请求头，那么在放入前，就不能先转化参数，不然config.data就不是原来的对象了，而是转化后的字符串
         // 所以转化参数就要放到放入请求头后来处理
-        // 为了便于根据不同类型来转化不同的data形式，所以在headers中携带了type字段
+        // 为了便于根据不同类型来转化不同的data形式，所以在headers中携带了type字段，正式请求前再删除该字段
         if (config.headers?.type === 'json') {
             config.data = JSON.stringify(config.data)
             config.headers['Content-Type'] = "application/json; charset=UTF-8"
