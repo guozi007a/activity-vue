@@ -1,3 +1,4 @@
+import { imgById } from '~/utils/commonUtils'
 
 // 查看奖励
 export const lookGifts = [
@@ -22,3 +23,10 @@ export const lookGifts = [
         { name: '爱满星河', url: 'http://rescdn.kktv8.com/kktv/icon/web/gift/png_80/40003271.png' },
     ],
 ]
+
+export const getUrl = (id: number, name = ""): string => {
+    if (!id && !name) return ""
+    if (name.includes("SVIP")) return "http://rescdn.kktv8.com/kktv/icon/web/vip/n100004.png"
+    if (name.includes("勋章")) return "http://ares.kktv8.com/kktv/activitymedal/phone/large/20211117174449_939.png"
+    return imgById(id)
+}

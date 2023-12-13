@@ -19,4 +19,4 @@ export const SignAPI = (params: SignInfoParam) => post('/activity/2399/sign', pa
 export const cardInfoAPI = (params: SignInfoParam) => get('/activity/2399/cardInfo', params)
 
 // 翻卡
-export const turnCardAPI = (params: TurnCardParam) => get('/activity/2399/turnCard', params)
+export const turnCardAPI = (params: TurnCardParam) => post('/activity/2399/turnCard', params)

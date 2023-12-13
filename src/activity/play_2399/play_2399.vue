@@ -16,12 +16,12 @@
                 <p class="p3">本轮已充值金额：{{ profile.isLogin ? count : '--' }}元</p>
                 <ul class="cards">
                     <li class="card_li" :class="`card_li${i + 1}`" v-for="(v, i) in cardsInfo" :key="i">
-                        <div class="card" :class="`card${i + 1} ${count >= cardsMoney[i] ? 'active' : ''}`"
-                            @clcik="count >= cardsMoney[i] && turnCard(i + 1)"    
+                        <div class="card" :class="`card${i + 1} ${count >= cardsMoney[i] && v.prizeId == 0 ? 'active' : ''}`"
+                            @click="count >= cardsMoney[i] && turnCard(i + 1)"    
                         >
-                            <template v-if="v.prizeId">
+                            <template v-if="count >= cardsMoney[i] && v.prizeId != 0">
                                 <div class="gift_img">
-                                    <img :src="imgById(v.prizeId)" alt="">
+                                    <img :src="getUrl(v.prizeId, v.prizeName)" alt="">
                                 </div>
                                 <p class="gift_name">{{ v.prizeName }}</p>
                             </template>
@@ -59,12 +59,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { lookGifts } from './dep'
+import { lookGifts, getUrl } from './dep'
 import { useLoginStore } from '~/store/useLoginStore';
 import { getSignInfoAPI, SignAPI, cardInfoAPI, turnCardAPI } from '~/api/play_2399';
 import type { SignInfoParam, TurnCardParam } from '~/api/play_2399'
 import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore';
-import { imgById } from '~/utils/commonUtils'
 
 interface CardInfo {
     position: number
@@ -156,7 +155,7 @@ const turnCard = async (position: number) => {
     }
     const res = await turnCardAPI(params)
     if (res.code === "0") {
-        
+        cardsInfo.value = cardsInfo.value.map(v => v.position == res.data.position ? res.data.position : v)
     } else {
         ElMessage.error(res.message)
     }
