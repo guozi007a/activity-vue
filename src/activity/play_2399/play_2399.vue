@@ -17,7 +17,7 @@
                 <ul class="cards">
                     <li class="card_li" :class="`card_li${i + 1}`" v-for="(v, i) in cardsInfo" :key="i">
                         <div class="card" :class="`card${i + 1} ${count >= cardsMoney[i] && v.prizeId == 0 ? 'active' : ''}`"
-                            @click="count >= cardsMoney[i] && turnCard(i + 1)"    
+                            @click="count >= cardsMoney[i] && v.prizeId == 0 && turnCard(i + 1)"    
                         >
                             <template v-if="count >= cardsMoney[i] && v.prizeId != 0">
                                 <div class="gift_img">
@@ -155,7 +155,16 @@ const turnCard = async (position: number) => {
     }
     const res = await turnCardAPI(params)
     if (res.code === "0") {
-        cardsInfo.value = cardsInfo.value.map(v => v.position == res.data.position ? res.data.position : v)
+        cardsInfo.value = cardsInfo.value.map(v => v.position == res.data.position ? res.data : v)
+        // 翻开最后一张卡片后，等待1.5s再刷新卡片
+        const turnedCount = cardsInfo.value.filter(v => v.prizeId != 0).length
+        if (turnedCount == 4) {
+            let timer = 0
+            timer = setTimeout(() => { 
+                getCardInfo()
+                clearTimeout(timer)
+            }, 1500)
+        }
     } else {
         ElMessage.error(res.message)
     }
