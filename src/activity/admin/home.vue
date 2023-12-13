@@ -52,12 +52,12 @@
                             </el-sub-menu>
                             <el-sub-menu index="/admin/charge">
                                 <template #title>
-                                    <el-icon><MessageBox /></el-icon>
+                                    <el-icon><Present /></el-icon>
                                     <span>充值相关</span>
                                 </template>
                                 <el-menu-item-group>
                                     <el-menu-item index="/admin/charge/index">
-                                        <el-icon><SetUp /></el-icon>
+                                        <el-icon><Sell /></el-icon>
                                         <span>账号充值</span>
                                     </el-menu-item>
                                     <el-menu-item index="/admin/charge/logs">
@@ -159,7 +159,9 @@ import {
     Grid,
     FirstAidKit,
     MessageBox,
-    SetUp
+    SetUp,
+    Present,
+    Sell,
 } from '@element-plus/icons-vue'
 
 document.title = '活动管理后台'
