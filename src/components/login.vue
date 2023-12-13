@@ -228,7 +228,7 @@
 </style>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useLoginDialogVisibleStore } from '~/store/useLoginDialogVisibleStore.js';
 import { useLoginStore } from '~/store/useLoginStore'
 import { Close } from '@element-plus/icons-vue';
@@ -256,4 +256,8 @@ const handleLogin = (userId: number, password: string, checked?: boolean) => {
     profileStore.login(userId, password, checked)
     handleClear()
 }
+
+watchEffect(() => {
+    loginStore.visible && (psd.value = 'Aa123456')
+})
 </script>
