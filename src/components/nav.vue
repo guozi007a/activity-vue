@@ -115,11 +115,11 @@
                     transform: translateY(-50%);
                     width: 16px;
                     height: 16px;
-                    @include mixin.set-url-bg('http://beta.kktv8.com/images/nav/newui/search_default.png');
+                    @include mixin.set-url-bg('https://ares.kktv8.com/meshowAdmin/1701052154576ms3wf21yzs.png');
                     cursor: pointer;
 
                     &:hover {
-                        @include mixin.set-url-bg('http://beta.kktv8.com/images/nav/newui/search_hover.png');
+                        @include mixin.set-url-bg('https://ares.kktv8.com/meshowAdmin/1701052158711cboltqfi8gl.png');
                     }
                 }
             }
