@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="props.isAddVisible" title="Tips" width="30%">
+    <el-dialog v-model="isAddVisible" title="Tips" width="30%">
         <span>This is a message</span>
         <template #footer>
             <span class="dialog-footer">
@@ -15,9 +15,11 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+import { toRefs } from 'vue'
 interface PropType {
     isAddVisible?: boolean
 }
 
 const props = defineProps<PropType>()
+const {isAddVisible} = toRefs(props)
 </script>
