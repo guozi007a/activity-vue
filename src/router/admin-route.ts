@@ -7,6 +7,7 @@ const IdSearch = () => import('~/activity/admin/id-search.vue')
 const EventTrackingInteractive = () => import('~/activity/admin/event-tracking-logs/interactive.vue')
 const Charge = () => import('~/activity/admin/charge.vue')
 const ChargeLogs = () => import('~/activity/admin/charge-logs.vue')
+const Gifts = () => import('~/activity/admin/gifts/gifts.vue')
 
 export const adminRoutes = [
     { 
@@ -36,7 +37,8 @@ export const adminRoutes = [
                     { path: 'index', component: Charge },
                     { path: 'logs', component: ChargeLogs },
                 ]
-            }
+            },
+            { path: 'gifts', component: Gifts },
         ]
     }
 ]

@@ -66,6 +66,10 @@
                                     </el-menu-item>
                                 </el-menu-item-group>
                             </el-sub-menu>
+                            <el-menu-item index="/admin/gifts">
+                                <el-icon><Present /></el-icon>
+                                <span>礼物配置</span>
+                            </el-menu-item>
                         </el-menu>
                     </el-aside>
                     <el-container class="admin-content-wrap">
