@@ -103,7 +103,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid) => {
         if (valid) {
-            console.log('submit!')
+            // console.log('submit!')
             /* 转换成要提交的参数 */
             const params = {} as Omit<GiftResItem, "createDate">
             params.giftId = formReq.giftId!
