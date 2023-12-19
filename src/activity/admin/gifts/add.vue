@@ -38,6 +38,9 @@
             <el-form-item prop="giftValue" label="礼物价值">
                 <el-input v-model.number="formReq.giftValue" placeholder="(秀币金额)" />
             </el-form-item>
+            <el-form-item prop="giftDescribe" label="礼物描述">
+                <el-input v-model="formReq.giftDescribe" />
+            </el-form-item>
         </el-form>
         <template #footer>
             <span class="dialog-footer">
@@ -77,6 +80,7 @@ interface FormConfig {
     extendsTypes: string[]
     giftTags: string[]
     giftValue: number | undefined
+    giftDescribe: string
 }
 
 const initForm: FormConfig = {
@@ -86,6 +90,7 @@ const initForm: FormConfig = {
     extendsTypes: [],
     giftTags: [],
     giftValue: undefined,
+    giftDescribe: "",
 }
 
 const ruleFormRef = ref<FormInstance>()
@@ -111,6 +116,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             params.giftTypeId = formReq.giftTypeId!
             params.giftType = giftTypes.find(v => v.giftTypeId == params.giftTypeId)?.giftTypeName!
             params.giftValue = formReq.giftValue!
+            params.giftDescribe = formReq.giftDescribe
             params.extendsTypes = []
             params.giftTags = []
             if (formReq.extendsTypes.length !== 0) {
