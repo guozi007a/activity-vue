@@ -108,7 +108,7 @@
 import { ref } from 'vue';
 import { giftTypes, giftTypeExtends, giftTags, giftList, tags } from './gifts-config'
 import type { GiftResItem } from './gifts-config'
-import { ElTable, dayjs } from 'element-plus'
+import { type ElTable, dayjs } from 'element-plus' /* 引入时加上type，避免手动引入和自动引入的冲突，冲突时会导致组件样式无法自动加载 */
 import { thousandFormat } from '~/utils/thousandFormat';
 import AddDialog from './add.vue'
 
