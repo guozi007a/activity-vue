@@ -9,7 +9,7 @@ export const giftTypes: GiftTypeConfig[] = [
     { giftTypeId: 3, giftTypeName: "豪华礼物" },
     { giftTypeId: 4, giftTypeName: "促销礼物" },
     { giftTypeId: 5, giftTypeName: "幸运礼物" },
-    { giftTypeId: 6, giftTypeName: "图片礼物" },
+    { giftTypeId: 6, giftTypeName: "道具礼物" },
 ]
 
 /* 礼物类型拓展 */

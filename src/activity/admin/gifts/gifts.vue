@@ -19,7 +19,6 @@
             <el-text>-</el-text>
             <el-input placeholder="礼物价值(秀币)" v-model.number="maxGiftVal" class="inp-width" />
         </el-space>
-        <el-input placeholder="指定房间Id" v-model.number="roomId" class="inp-width" />
         <el-button type="primary">搜索</el-button>
         <el-button>重置</el-button>
     </el-space>
@@ -119,7 +118,6 @@ const extendsId = ref<number>()
 const giftTagId = ref<number>()
 const minGiftVal = ref<number>()
 const maxGiftVal = ref<number>()
-const roomId = ref<number>()
 const pageSize = ref<number>(20)
 const currentPage = ref<number>(1)
 const multipleTableRef = ref<InstanceType<typeof ElTable>>()
