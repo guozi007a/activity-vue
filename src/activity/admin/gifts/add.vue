@@ -63,11 +63,11 @@ interface PropType {
 
 defineProps<PropType>()
 
-const emits = defineEmits(['close'])
+const emits = defineEmits(['update:close'])
 
 const closeDialog = (formEl: FormInstance | undefined) => {
     resetForm(formEl)
-    emits('close', false)
+    emits('update:close', false)
 }
 
 interface FormConfig {
