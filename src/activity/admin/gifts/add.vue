@@ -1,7 +1,7 @@
 <template>
     <!-- [Vue warn] Set operation on key "isAddVisible" failed: target is readonly -->
     <!-- 解决方法：将v-model="isAddVisible"改为:model-value="isAddVisible" -->
-    <el-dialog :model-value="isAddVisible" title="添加礼物" width="30%" center align-center style="min-width: 460px;">
+    <el-dialog :model-value="isAddVisible" title="添加礼物" width="30%" center align-center style="min-width: 460px;" @close="closeDialog(ruleFormRef)">
         <el-form
             ref="ruleFormRef"
             :model="formReq"
@@ -63,11 +63,11 @@ interface PropType {
 
 defineProps<PropType>()
 
-const emits = defineEmits(['update:close'])
+const emits = defineEmits(['close'])
 
 const closeDialog = (formEl: FormInstance | undefined) => {
     resetForm(formEl)
-    emits('update:close', false)
+    emits('close', false)
 }
 
 interface FormConfig {
