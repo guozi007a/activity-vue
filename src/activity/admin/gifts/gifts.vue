@@ -30,6 +30,7 @@
             <el-button plain type="success">导入<span style="font-size: 12px;">(JSON)</span></el-button>
             <el-button plain type="warning">导出<span style="font-size: 12px;">(Excel)</span></el-button>
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
+            <el-button plain type="danger" :disabled="multipleSelection.length != 1">修改<span style="font-size: 12px;">(单行)</span></el-button>
         </el-space>
     </div>
     <!-- align属性是无效的，这里用cell-style和header-cell-style处理 -->
@@ -92,6 +93,10 @@
 <style scoped lang="scss">
 .table-opers {
     margin-top: 20px;
+    position: sticky;
+    z-index: 5;
+    top: 0;
+    left: 0;
 }
 .inp-width {
     width: 120px;
