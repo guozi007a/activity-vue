@@ -1,5 +1,7 @@
 <template>
-    <el-dialog v-model="isAddVisible" title="Tips" width="30%">
+    <!-- [Vue warn] Set operation on key "isAddVisible" failed: target is readonly -->
+    <!-- 解决方法：将v-model="isAddVisible"改为:model-value="isAddVisible" -->
+    <el-dialog :model-value="isAddVisible" title="Tips" width="30%">
         <span>This is a message</span>
         <template #footer>
             <span class="dialog-footer">

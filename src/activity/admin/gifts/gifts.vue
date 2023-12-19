@@ -33,6 +33,7 @@
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
         </el-space>
     </div>
+    <!-- align属性是无效的，这里用cell-style和header-cell-style处理 -->
     <el-table
         ref="multipleTableRef"
         :data="giftList"
@@ -41,19 +42,22 @@
         :stripe="isStripe"
         :row-class-name="rowClassName"
         :row-key="rowKey"
+        :cell-style="{textAlign: 'center'}"
+        :header-cell-style="{textAlign: 'center'}"
+
     >
         <el-table-column type="selection" width="55" />
         <el-table-column prop="giftId" label="礼物ID" width="100" />
         <el-table-column prop="giftName" label="礼物名称" width="140" />
         <el-table-column prop="giftType" label="礼物类型" width="90" />
-        <el-table-column prop="extendsTypes" label="类型扩展">
+        <el-table-column prop="extendsTypes" label="类型扩展" width="240">
             <template #default="et">
                 <el-space>
                     <el-text v-for="v in et.row.extendsTypes">{{ v.extendsName }}</el-text>
                 </el-space>
             </template>
         </el-table-column>
-        <el-table-column prop="giftTags" label="礼物标签">
+        <el-table-column prop="giftTags" label="礼物标签" width="240">
             <template #default="gt">
                 <el-space>
                     <el-tag v-for="v in gt.row.giftTags" :type="(tags[v.giftTagId % tags.length] as any)">{{ v.giftTagName }}</el-tag>
@@ -65,7 +69,7 @@
                 <el-text>{{ thousandFormat(gv.row.giftValue) }}</el-text>
             </template>
         </el-table-column>
-        <el-table-column prop="createDate" label="创建日期" width="120">
+        <el-table-column prop="createDate" label="创建日期">
             <template #default="cd">
                 <el-text>{{ dayjs(cd.row.createDate).format("YYYY-MM-DD") }}</el-text>
             </template>
