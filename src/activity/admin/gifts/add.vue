@@ -39,20 +39,23 @@
                 <el-input v-model.number="formReq.giftValue" placeholder="(秀币金额)" />
             </el-form-item>
             <el-form-item prop="cornerMarkId" label="礼物角标">
-                <el-select v-model="formReq.cornerMarkId" placeholder="请选择">
-                    <el-option
-                        v-for="v in cornerMarks"
-                        :key="v.cornerMarkId"
-                        :label="v.cornerMarkName"
-                        :value="v.cornerMarkId"
-                    >
-                        <el-space>
-                            <el-text style="min-width: 80px;">{{ v.cornerMarkName }}</el-text>
-                            <el-image v-if="v.cornerMarkId" style="width: 35px" fit="contain" :src="giftIcon(v.cornerMarkId)" />
-                            <el-text v-else>-</el-text>
-                        </el-space>
-                    </el-option>
-                </el-select>
+                <el-space>
+                    <el-select v-model="formReq.cornerMarkId" placeholder="请选择">
+                        <el-option
+                            v-for="v in cornerMarks"
+                            :key="v.cornerMarkId"
+                            :label="v.cornerMarkName"
+                            :value="v.cornerMarkId"
+                        >
+                            <el-space>
+                                <el-text style="min-width: 80px;">{{ v.cornerMarkName }}</el-text>
+                                <el-image v-if="v.cornerMarkId" style="width: 35px" fit="contain" :src="giftIcon(v.cornerMarkId)" />
+                                <el-text v-else>-</el-text>
+                            </el-space>
+                        </el-option>
+                    </el-select>
+                    <el-image v-if="formReq.cornerMarkId" style="width: 35px;" :src="giftIcon(formReq.cornerMarkId)" fit="contain" />
+                </el-space>
             </el-form-item>
             <el-form-item prop="giftDescribe" label="礼物描述">
                 <el-input v-model="formReq.giftDescribe" />
