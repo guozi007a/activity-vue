@@ -44,6 +44,7 @@ export interface CornerMarkConfig {
     cornerMarkName: string
 }
 export const cornerMarks: CornerMarkConfig[] = [
+    { cornerMarkId: 0, cornerMarkName: "无" },
     { cornerMarkId: 100068, cornerMarkName: "活动" },
     { cornerMarkId: 100084, cornerMarkName: "年度" },
     { cornerMarkId: 100069, cornerMarkName: "玩法" },

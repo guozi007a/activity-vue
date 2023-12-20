@@ -45,7 +45,13 @@
                         :key="v.cornerMarkId"
                         :label="v.cornerMarkName"
                         :value="v.cornerMarkId"
-                    />
+                    >
+                        <el-space>
+                            <el-text style="min-width: 80px;">{{ v.cornerMarkName }}</el-text>
+                            <el-image v-if="v.cornerMarkId" style="width: 35px" fit="contain" :src="giftIcon(v.cornerMarkId)" />
+                            <el-text v-else>-</el-text>
+                        </el-space>
+                    </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item prop="giftDescribe" label="礼物描述">
@@ -69,6 +75,7 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { giftTypes, giftTypeExtends, giftTags, cornerMarks } from './gifts-config'
 import type { GiftResItem } from './gifts-config'
+import { giftIcon } from '~/utils/commonUtils'
 
 interface PropType {
     isAddVisible?: boolean
@@ -146,7 +153,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 })
             }
             params.cornerMarkId = formReq.cornerMarkId ?? 0
-            params.cornerMarkName = cornerMarks.find(v => v.cornerMarkId == params.cornerMarkId)?.cornerMarkName ?? ""
+            params.cornerMarkName = params.cornerMarkId ? cornerMarks.find(v => v.cornerMarkId == params.cornerMarkId)?.cornerMarkName ?? "" : ""
             // console.log('params: ', params)
         } else {
             ElMessage.warning('请按规则填写表单!')
