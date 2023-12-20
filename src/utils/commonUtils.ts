@@ -9,3 +9,6 @@ export const imgById = (giftId: number | string | undefined): string => giftId
     ? isMobile
         ? `http://rescdn.kktv8.com/kktv/icon/bang/png/${giftId}.png`
         : `https://rescdn.kktv8.com/kktv/icon/web/gift/png_80/${giftId}.png` : '';
+
+// gifticon
+export const giftIcon = (id: string | number | undefined): string => id ? `https://rescdn.kktv8.com/kktv/icon/web/giftIcon/${id}.png?v=1` : ''

@@ -1,3 +1,6 @@
+html, body {
+    font-family: Arial, Helvetica, sans-serif;
+}
 html, body, div, p, span, a, nav, main, section, aside, header, footer, article,
 h1, h2, h3, h4, h5, h6, ul, ol, li, textarea, button, input, textarea, select, img,
 label, form, code, table, thead, tbody, tr, th, td, sub, sup {

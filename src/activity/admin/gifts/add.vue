@@ -38,6 +38,16 @@
             <el-form-item prop="giftValue" label="礼物价值">
                 <el-input v-model.number="formReq.giftValue" placeholder="(秀币金额)" />
             </el-form-item>
+            <el-form-item prop="cornerMarkId" label="礼物角标">
+                <el-select v-model="formReq.cornerMarkId" placeholder="请选择">
+                    <el-option
+                        v-for="v in cornerMarks"
+                        :key="v.cornerMarkId"
+                        :label="v.cornerMarkName"
+                        :value="v.cornerMarkId"
+                    />
+                </el-select>
+            </el-form-item>
             <el-form-item prop="giftDescribe" label="礼物描述">
                 <el-input v-model="formReq.giftDescribe" />
             </el-form-item>
@@ -57,7 +67,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { giftTypes, giftTypeExtends, giftTags } from './gifts-config'
+import { giftTypes, giftTypeExtends, giftTags, cornerMarks } from './gifts-config'
 import type { GiftResItem } from './gifts-config'
 
 interface PropType {
@@ -81,6 +91,8 @@ interface FormConfig {
     giftTags: string[]
     giftValue: number | undefined
     giftDescribe: string
+    cornerMarkId: number | undefined
+    cornerMarkName: string
 }
 
 const initForm: FormConfig = {
@@ -91,6 +103,8 @@ const initForm: FormConfig = {
     giftTags: [],
     giftValue: undefined,
     giftDescribe: "",
+    cornerMarkId: undefined,
+    cornerMarkName: "",
 }
 
 const ruleFormRef = ref<FormInstance>()
@@ -108,7 +122,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid) => {
         if (valid) {
-            // console.log('submit!')
+            // console.log('formReq: ', formReq)
             /* 转换成要提交的参数 */
             const params = {} as Omit<GiftResItem, "createDate">
             params.giftId = formReq.giftId!
@@ -131,6 +145,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                     params.giftTags.push(item)
                 })
             }
+            params.cornerMarkId = formReq.cornerMarkId ?? 0
+            params.cornerMarkName = cornerMarks.find(v => v.cornerMarkId == params.cornerMarkId)?.cornerMarkName ?? ""
             // console.log('params: ', params)
         } else {
             ElMessage.warning('请按规则填写表单!')
