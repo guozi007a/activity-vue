@@ -69,6 +69,11 @@
                 <el-text>{{ thousandFormat(gv.row.giftValue) }}</el-text>
             </template>
         </el-table-column>
+        <el-table-column prop="cornerMark" label="角标类型" width="100">
+            <template #default="cm">
+                <el-text>{{ cornerMarkName(cm.row.cornerMark, cm.row.giftTags) }}</el-text>
+            </template>
+        </el-table-column>
         <el-table-column prop="createDate" label="创建日期">
             <template #default="cd">
                 <el-text>{{ dayjs(cd.row.createDate).format("YYYY-MM-DD") }}</el-text>
@@ -111,7 +116,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { giftTypes, giftTypeExtends, giftTags, giftList, tags } from './gifts-config'
-import type { GiftResItem } from './gifts-config'
+import type { GiftResItem, GiftTagConfig } from './gifts-config'
 import { type ElTable, dayjs } from 'element-plus' /* 引入时加上type，避免手动引入和自动引入的冲突，冲突时会导致组件样式无法自动加载 */
 import { thousandFormat } from '~/utils/thousandFormat';
 import AddDialog from './add.vue'
@@ -139,6 +144,11 @@ const closeAdd = () => {
 const handleSelectionChange = (val: GiftResItem[]) => {
     multipleSelection.value = val
     isStripe.value = Boolean(!val.length)
+}
+
+const cornerMarkName = (cornerMark: number, item: GiftTagConfig[]): string => {
+    if (!cornerMark) return '-'
+    return item.find(v => v.giftTagId == cornerMark)?.giftTagName ?? ''
 }
 
 const cancelMultipleSelection = () => {

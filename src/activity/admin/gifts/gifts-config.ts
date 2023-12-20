@@ -49,7 +49,8 @@ export interface GiftResItem {
     giftValue: number
     createDate: number
     giftDescribe: string
+    cornerMark: number
 }
-export const giftList: GiftResItem[] = new Array(201).fill({ giftId: 40000001, giftName: '礼物1', giftTypeId: 1, giftType: '普通礼物', extendsTypes: [{ extendsId: 1001, extendsName: '经典礼物' }], giftTags: [{ giftTagId: 1, giftTagName: '挖宝礼物' }], giftValue: 50, createDate: 1702885997197 })
+export const giftList: GiftResItem[] = new Array(201).fill({ giftId: 40000001, giftName: '礼物1', giftTypeId: 1, giftType: '普通礼物', extendsTypes: [{ extendsId: 1001, extendsName: '经典礼物' }], giftTags: [{ giftTagId: 1, giftTagName: '挖宝礼物' }], giftValue: 50, createDate: 1702885997197, cornerMark: 0 })
 
 export const tags = ['', 'info', 'success', 'warning', 'danger']
