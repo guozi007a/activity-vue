@@ -19,8 +19,8 @@
             <el-text>-</el-text>
             <el-input placeholder="礼物价值(秀币)" v-model.number="maxGiftVal" class="inp-width" />
         </el-space>
-        <el-button type="primary">搜索</el-button>
-        <el-button>重置</el-button>
+        <el-button type="primary" @click="search">搜索</el-button>
+        <el-button @click="resetSearch">重置</el-button>
     </el-space>
     <div class="table-opers">
         <el-space>
@@ -74,7 +74,7 @@
                 <el-image style="width: 42px" :src="giftIcon(cm.row.cornerMarkId)" fit="contain" />
             </template>
         </el-table-column>
-        <el-table-column prop="createDate" label="创建日期">
+        <el-table-column prop="createDate" label="创建日期" width="120">
             <template #default="cd">
                 <el-text>{{ dayjs(cd.row.createDate).format("YYYY-MM-DD") }}</el-text>
             </template>
@@ -83,7 +83,7 @@
     <el-pagination 
         background 
         layout="prev, pager, next, jumper, total, sizes" 
-        :total="giftList.length" 
+        :total="total" 
         :page-sizes="[10, 20, 50, 100]"
         :page-size="pageSize"
         :current-page="currentPage"
@@ -115,12 +115,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { giftTypes, giftTypeExtends, giftTags, giftList, tags } from './gifts-config'
+import { giftTypes, giftTypeExtends, giftTags, tags } from './gifts-config'
 import type { GiftResItem } from './gifts-config'
 import { type ElTable, dayjs } from 'element-plus' /* 引入时加上type，避免手动引入和自动引入的冲突，冲突时会导致组件样式无法自动加载 */
 import { thousandFormat } from '~/utils/thousandFormat';
 import AddDialog from './add.vue'
 import { giftIcon } from "~/utils/commonUtils"
+import { queryGiftsAPI, type QueryGiftsParams } from '~/api/admin';
 
 const giftId = ref<number>()
 const giftName = ref<string>("")
@@ -135,6 +136,8 @@ const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<GiftResItem[]>([])
 const isStripe = ref<boolean>(true) /* row-class-name和stripe会有样式冲突，在有选中行时，我们让stripe属性改为false，这样能突出最终效果 */
 const isAddVisible = ref<boolean>(false)
+const giftList = ref<GiftResItem[]>([])
+const total = ref<number>(0)
 
 const setAddVisible = () => {
     isAddVisible.value = true
@@ -170,5 +173,36 @@ const handlePageSize = (val: number) => {
 const handleCurrentPage = (val: number) => {
     // console.log('current page: ', val)
     currentPage.value = val
+}
+
+const search = async () => {
+    const params = {} as QueryGiftsParams
+    params.giftId = giftId.value ?? 0
+    params.giftName = giftName.value
+    params.extendsId = extendsId.value ?? 0
+    params.giftTypeId = giftTypeId.value ?? 0
+    params.giftTagId = giftTagId.value ?? 0
+    params.minGiftValue = minGiftVal.value ?? 0
+    params.maxGiftValue = maxGiftVal.value ?? 0
+    params.page = currentPage.value
+    params.pageSize = pageSize.value
+    const res = await queryGiftsAPI(params)
+    if (res.code == "0") {
+        giftList.value = res.data.giftList
+        total.value = res.data.total
+    } else {
+        ElMessage.error(res.message)
+    }
+}
+
+const resetSearch = () => {
+    giftId.value = undefined
+    giftName.value = ""
+    extendsId.value = undefined
+    giftTypeId.value = undefined    
+    extendsId.value = undefined
+    giftTagId.value = undefined
+    minGiftVal.value = undefined
+    maxGiftVal.value = undefined
 }
 </script>

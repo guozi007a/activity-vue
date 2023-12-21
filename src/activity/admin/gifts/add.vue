@@ -79,6 +79,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { giftTypes, giftTypeExtends, giftTags, cornerMarks } from './gifts-config'
 import type { GiftResItem } from './gifts-config'
 import { giftIcon } from '~/utils/commonUtils'
+import { addGiftAPI } from '~/api/admin'
 
 interface PropType {
     isAddVisible?: boolean
@@ -130,7 +131,7 @@ const rules = reactive<FormRules<FormConfig>>({
 
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    await formEl.validate((valid) => {
+    await formEl.validate(async (valid) => {
         if (valid) {
             // console.log('formReq: ', formReq)
             /* 转换成要提交的参数 */
@@ -158,6 +159,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             params.cornerMarkId = formReq.cornerMarkId ?? 0
             params.cornerMarkName = params.cornerMarkId ? cornerMarks.find(v => v.cornerMarkId == params.cornerMarkId)?.cornerMarkName ?? "" : ""
             // console.log('params: ', params)
+            const res = await addGiftAPI(params)
+            if (res.code == "0") {
+                ElMessage.success('添加成功!')
+                resetForm(formEl)
+            } else {
+                ElMessage.error(res.message)
+            }
         } else {
             ElMessage.warning('请按规则填写表单!')
         }

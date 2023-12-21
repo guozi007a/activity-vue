@@ -1,5 +1,6 @@
 import { get, post, postForm } from './request'
 import type { FormConfig, AddActivityFormConfig } from '~/activity/admin/id-types'
+import type { GiftResItem } from '~/activity/admin/gifts/gifts-config'
 
 // 创建id
 export const createIdAPI = (form: FormConfig) => postForm('/v2/createId', form)
@@ -41,5 +42,23 @@ export interface ChargeLogsConfig {
     pageSize: number
 }
 export const getChargeLogsAPI = (params: ChargeLogsConfig) => get('/v2/chargeList', params)
+
 // 删除指定充值记录
 export const delChargeLogAPI = (id: number) => post('/v2/chargeDel', { id })
+
+// 添加礼物
+export const addGiftAPI = (params: Omit<GiftResItem, "createDate">) => post('/v2/addGift', params)
+
+// 搜索礼物
+export interface QueryGiftsParams {
+    giftId?: number
+    giftName?: string
+    giftTypeId?: number
+    extendsId?: number
+    giftTagId?: number
+    minGiftValue?: number
+    maxGiftValue?: number
+    page: number
+    pageSize: number
+}
+export const queryGiftsAPI = (params: QueryGiftsParams) => get('/v2/searchGifts', params)
