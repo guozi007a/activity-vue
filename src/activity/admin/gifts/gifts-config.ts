@@ -94,3 +94,6 @@ export interface GiftResItem {
 
 /* 礼物标签的样式 */
 export const tags = ['', 'info', 'success', 'warning', 'danger']
+
+/* 限制导入的json文件的大小为5M */
+export const GIFT_JSON_FILE_LIMIT = 1024 * 1024 * 5

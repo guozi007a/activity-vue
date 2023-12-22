@@ -40,6 +40,7 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElText: typeof import('element-plus/es')['ElText']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     Login: typeof import('./src/components/login.vue')['default']
     Nav: typeof import('./src/components/nav.vue')['default']
     ProjectIntro: typeof import('./src/components/project-intro.vue')['default']

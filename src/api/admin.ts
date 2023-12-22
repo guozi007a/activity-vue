@@ -1,4 +1,4 @@
-import { get, post, postForm } from './request'
+import { get, post, postForm, postFile } from './request'
 import type { FormConfig, AddActivityFormConfig } from '~/activity/admin/id-types'
 import type { GiftResItem } from '~/activity/admin/gifts/gifts-config'
 
@@ -71,3 +71,6 @@ export const delGiftsAPI = (params: DelGiftsParams) => post('/v2/deleteGifts', p
 
 // 更新礼物
 export const updateGiftAPI = (params: Omit<GiftResItem, "createDate">) => post('/v2/updateGift', params)
+
+// 上传礼物json文件
+export const uploadGiftJsonFileAPI = (file: File) => postFile('/v2/uploadGiftJsonFile', file)

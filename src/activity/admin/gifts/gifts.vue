@@ -27,7 +27,20 @@
             <el-tag :type="multipleSelection.length ? 'success' : 'info'">已选中：{{ multipleSelection.length }}行</el-tag>
             <el-button type="warning" @click="cancelMultipleSelection" :disabled="!multipleSelection.length">取消选中</el-button>
             <el-button type="danger" :disabled="!multipleSelection.length" @click="removeGifts">刪除选中</el-button>
-            <el-button plain type="success">导入<span style="font-size: 12px;">(JSON)</span></el-button>
+            <!-- <el-button plain type="success">导入<span style="font-size: 12px;">(JSON)</span></el-button> -->
+            <el-upload
+                ref="uploadRef"
+                :disabled="isUploading"
+                accept="file"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="uploadSuccess"
+                :on-error="uploadFail"
+                :before-upload="beforeUpload"
+                :file-list="fileList"
+            >
+                <el-button plain type="success">导入<span style="font-size: 12px;">(JSON)</span></el-button>
+            </el-upload>
             <el-button plain type="warning">导出<span style="font-size: 12px;">(Excel)</span></el-button>
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
             <el-button plain type="danger" :disabled="multipleSelection.length != 1" @click="update">修改<span style="font-size: 12px;">(单行)</span></el-button>
@@ -114,14 +127,16 @@
 </style>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { giftTypes, giftTypeExtends, giftTags, tags } from './gifts-config'
+import { ref, onMounted, computed } from 'vue';
+import { giftTypes, giftTypeExtends, giftTags, tags, GIFT_JSON_FILE_LIMIT } from './gifts-config'
 import type { GiftResItem } from './gifts-config'
-import { type ElTable, dayjs } from 'element-plus' /* 引入时加上type，避免手动引入和自动引入的冲突，冲突时会导致组件样式无法自动加载 */
+import { dayjs } from 'element-plus' /* 引入时加上type，避免手动引入和自动引入的冲突，冲突时会导致组件样式无法自动加载 */
+import type { ElTable, UploadRawFile, UploadUserFile, UploadInstance} from 'element-plus'
 import { thousandFormat } from '~/utils/thousandFormat';
 import AddDialog from './add.vue'
 import { giftIcon } from "~/utils/commonUtils"
-import { queryGiftsAPI, type QueryGiftsParams, delGiftsAPI, type DelGiftsParams } from '~/api/admin';
+import { queryGiftsAPI, delGiftsAPI } from '~/api/admin';
+import type { QueryGiftsParams, DelGiftsParams } from '~/api/admin';
 
 const giftId = ref<number>()
 const giftName = ref<string>("")
@@ -139,6 +154,14 @@ const isAddVisible = ref<boolean>(false)
 const giftList = ref<GiftResItem[]>([])
 const total = ref<number>(0)
 const updateInfo = ref<GiftResItem>()
+const isUploading = ref<boolean>(false)
+const fileList = ref<UploadUserFile[]>([])
+const uploadRef = ref<UploadInstance>()
+
+/* 在html中无法使用import.meta，所以用computed先计算，将结果交给html */
+const uploadUrl = computed(() => `${import.meta.env.VITE_API}/v2/uploadGiftJsonFile`)
+
+console.log('uploadUrl: ', uploadUrl.value)
 
 const setAddVisible = () => {
     isAddVisible.value = true
@@ -229,6 +252,29 @@ const removeGifts = async () => {
         cancelMultipleSelection()
     } else {
         ElMessage.error(res.message)
+    }
+}
+
+const uploadSuccess = () => {
+    isUploading.value = false
+    ElMessage.success('上传成功')
+    uploadRef.value?.clearFiles()
+}
+
+const uploadFail = () => {
+    isUploading.value = false
+    ElMessage.error('上传失败')
+}
+
+const beforeUpload = (rawFile: UploadRawFile) => {
+    console.log('rawFile: ', rawFile)
+    if (rawFile.size > GIFT_JSON_FILE_LIMIT) {
+        ElMessage.warning('JSON file should be less than 5M.')
+        return false
+    }
+    if (rawFile.type !== "application/json") {
+        ElMessage.warning('file type should be *.json.')
+        return false
     }
 }
 </script>

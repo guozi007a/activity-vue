@@ -1,0 +1,32 @@
+{
+    "gifts": [
+        {
+            "giftId": 40003524,
+            "giftName": "礼物1",
+            "giftType": "普通礼物",
+            "giftTypeId": 1,
+            "extendsTypes": [
+                { "giftId": 40003524, "extendsId": 1001, "extendsName": "经典礼物" }
+            ],
+            "giftTags": [
+                { "giftId": 40003524, "giftTagId": 4, "giftTagName": "活动礼物" }
+            ],
+            "giftValue": 50,
+            "giftDescribe": "哈哈哈",
+            "cornerMarkId": 100077,
+            "cornerMarkName": "周星"
+        },
+        {
+            "giftId": 40000059,
+            "giftName": "礼物2",
+            "giftType": "高级礼物",
+            "giftTypeId": 2,
+            "extendsTypes": [],
+            "giftTags": [],
+            "giftValue": 66000,
+            "giftDescribe": "动次打次",
+            "cornerMarkId": 100075,
+            "cornerMarkName": "特效"
+        }
+    ]
+}
