@@ -26,7 +26,7 @@
         <el-space>
             <el-tag :type="multipleSelection.length ? 'success' : 'info'">已选中：{{ multipleSelection.length }}行</el-tag>
             <el-button type="warning" @click="cancelMultipleSelection" :disabled="!multipleSelection.length">取消选中</el-button>
-            <el-button type="danger" :disabled="!multipleSelection.length">刪除选中</el-button>
+            <el-button type="danger" :disabled="!multipleSelection.length" @click="removeGifts">刪除选中</el-button>
             <el-button plain type="success">导入<span style="font-size: 12px;">(JSON)</span></el-button>
             <el-button plain type="warning">导出<span style="font-size: 12px;">(Excel)</span></el-button>
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
@@ -121,7 +121,7 @@ import { type ElTable, dayjs } from 'element-plus' /* 引入时加上type，避�
 import { thousandFormat } from '~/utils/thousandFormat';
 import AddDialog from './add.vue'
 import { giftIcon } from "~/utils/commonUtils"
-import { queryGiftsAPI, type QueryGiftsParams } from '~/api/admin';
+import { queryGiftsAPI, type QueryGiftsParams, delGiftsAPI, type DelGiftsParams } from '~/api/admin';
 
 const giftId = ref<number>()
 const giftName = ref<string>("")
@@ -217,5 +217,18 @@ const update = () => {
     // console.log('选中项：', multipleSelection.value[0])
     updateInfo.value = multipleSelection.value[0]
     setAddVisible()
+}
+
+const removeGifts = async () => {
+    const ids = multipleSelection.value.map(v => v.giftId)
+    const params: DelGiftsParams = { ids }
+    const res = await delGiftsAPI(params)
+    if (res.code == "0") {
+        ElMessage.success('删除成功！')
+        giftList.value = giftList.value.filter(v => multipleSelection.value.find(item => item.giftId != v.giftId))
+        cancelMultipleSelection()
+    } else {
+        ElMessage.error(res.message)
+    }
 }
 </script>
