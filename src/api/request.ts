@@ -39,7 +39,14 @@ instance.interceptors.request.use(function (config) {
             }
             config.data = result
             config.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8"
+        } else if (config.headers?.type === 'file') {
+            const formData = new FormData()
+            formData.append("file", config.data)
+
+            config.data = formData
+            config.headers['Content-Type'] = "multipart/form-data; charset=UTF-8"
         }
+        
         delete config.headers.type
     }
     return config;
@@ -112,6 +119,18 @@ export const postForm = (url: string, params?: Record<string, any>): Promise<Res
         data: params,
         headers: {
             "type": "form",
+        },
+    })
+}
+
+// post file request
+export const postFile = (url: string, file: File): Promise<ResType> => {
+    return instance({
+        url,
+        method: 'post',
+        data: file,
+        headers: {
+            "type": "file",
         },
     })
 }
