@@ -30,7 +30,7 @@
             <el-button plain type="success">导入<span style="font-size: 12px;">(JSON)</span></el-button>
             <el-button plain type="warning">导出<span style="font-size: 12px;">(Excel)</span></el-button>
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
-            <el-button plain type="danger" :disabled="multipleSelection.length != 1">修改<span style="font-size: 12px;">(单行)</span></el-button>
+            <el-button plain type="danger" :disabled="multipleSelection.length != 1" @click="update">修改<span style="font-size: 12px;">(单行)</span></el-button>
         </el-space>
     </div>
     <!-- align属性是无效的，这里用cell-style和header-cell-style处理 -->
@@ -92,7 +92,7 @@
         hide-on-single-page
         style="margin-top: 12px;"
     />
-    <AddDialog :isAddVisible="isAddVisible" @close="closeAdd" />
+    <AddDialog :isAddVisible="isAddVisible" @close="closeAdd" :updateInfo="updateInfo" />
 </template>
 
 <style scoped lang="scss">
@@ -114,7 +114,7 @@
 </style>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { giftTypes, giftTypeExtends, giftTags, tags } from './gifts-config'
 import type { GiftResItem } from './gifts-config'
 import { type ElTable, dayjs } from 'element-plus' /* 引入时加上type，避免手动引入和自动引入的冲突，冲突时会导致组件样式无法自动加载 */
@@ -138,12 +138,15 @@ const isStripe = ref<boolean>(true) /* row-class-name和stripe会有样式冲突
 const isAddVisible = ref<boolean>(false)
 const giftList = ref<GiftResItem[]>([])
 const total = ref<number>(0)
+const updateInfo = ref<GiftResItem>()
 
 const setAddVisible = () => {
     isAddVisible.value = true
 }
 const closeAdd = () => {
     isAddVisible.value = false
+    updateInfo.value = undefined
+    multipleSelection.value.length && cancelMultipleSelection()
 }
 const handleSelectionChange = (val: GiftResItem[]) => {
     multipleSelection.value = val
@@ -204,5 +207,15 @@ const resetSearch = () => {
     giftTagId.value = undefined
     minGiftVal.value = undefined
     maxGiftVal.value = undefined
+}
+
+onMounted(() => {
+    search()
+})
+
+const update = () => {
+    // console.log('选中项：', multipleSelection.value[0])
+    updateInfo.value = multipleSelection.value[0]
+    setAddVisible()
 }
 </script>

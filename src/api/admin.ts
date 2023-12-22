@@ -47,7 +47,7 @@ export const getChargeLogsAPI = (params: ChargeLogsConfig) => get('/v2/chargeLis
 export const delChargeLogAPI = (id: number) => post('/v2/chargeDel', { id })
 
 // 添加礼物
-export const addGiftAPI = (params: Omit<GiftResItem, "createDate">) => post('/v2/addGift', params)
+export const addGiftAPI = (params: GiftResItem) => post('/v2/addGift', params)
 
 // 搜索礼物
 export interface QueryGiftsParams {
@@ -62,3 +62,12 @@ export interface QueryGiftsParams {
     pageSize: number
 }
 export const queryGiftsAPI = (params: QueryGiftsParams) => get('/v2/searchGifts', params)
+
+// 删除礼物
+export interface DelGiftsParams {
+    ids: number[]
+}
+export const delGiftsAPI = (params: DelGiftsParams) => post('/v2/deleteGifts', params)
+
+// 更新礼物
+export const updateGiftAPI = (params: Omit<GiftResItem, "createDate">) => post('/v2/updateGift', params)
