@@ -3,6 +3,35 @@ import axios from 'axios'
 const instance = axios.create({
     baseURL: import.meta.env.VITE_API,
     timeout: 10000,
+    // get请求时，如果params参数是{ids: [1, 2, 3]}这种形式，会被默认转换为ids[]=1&ids[]=2&ids[]=3的形式进行传参
+    // 这是错误的传参方式，后端无法识别，所以需要手动进行序列化纠正
+    paramsSerializer: function (params) {
+        let paramsLine = ''
+        for (let k in params) {
+            const v = params[k]
+            // 排除空参数
+            if (v === "" || v === undefined || v === null) {
+                continue
+            }
+            if (Array.isArray(v)) { // 数组
+                v.forEach(item => {
+                    paramsLine = paramsLine
+                        ? (paramsLine + `&${k}=${encodeURIComponent(item)}`)
+                        : `${k}=${encodeURIComponent(item)}`
+                })
+            } else if (Object.prototype.toString.call(v) === "object") { // 普通对象
+                paramsLine = paramsLine
+                    ? (paramsLine + `&${k}=${encodeURIComponent(JSON.stringify(v))}`)
+                    : `${k}=${encodeURIComponent(JSON.stringify(v))}`
+            } else { // 普通参数
+                paramsLine = paramsLine
+                    ? (paramsLine + `&${k}=${encodeURIComponent(v as any)}`)
+                    : `${k}=${encodeURIComponent(v as any)}`
+            }
+        }
+
+        return paramsLine
+    }
 })
 
 // 添加请求拦截器
@@ -64,9 +93,35 @@ instance.interceptors.response.use(function (response) {
         window.location.reload()
         return
     }
+    // 需要后端在header中添加"Access-Control-Expose-Headers"，将content-type和content-disposition暴露给浏览器，前端才能获取到
+    // 当值为"application/octet-stream"时，说明要走下载流程，进行单独处理
+    const contentType = response.headers['content-type']
+    if (contentType === "application/octet-stream") {
+        const contentDisposition = response.headers['content-disposition']
+        let filename = ''
+        if (contentDisposition) {
+            const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+            if (filenameMatch.length === 2) {
+                filename = filenameMatch[1];
+
+                const url = window.URL.createObjectURL(new Blob([response.data]))
+                const link = document.createElement('a')
+                link.href = url
+                link.setAttribute('download', filename)
+                document.body.appendChild(link)
+                link.click()
+
+                // 开始下载后，就删除下载连接，这不会影响在下载的文件
+                document.body.removeChild(link)
+                window.URL.revokeObjectURL(url)
+            }
+        }
+        return response
+    }
     // 对响应数据做点什么
     return response.data;
 }, function (error) {
+    // console.log('error: ', error)
     // 对响应错误做点什么
     return Promise.reject(error);
 });
@@ -84,6 +139,16 @@ export const get = (url: string, params?: Record<string, any>): Promise<ResType>
         url,
         method: 'get',
         params
+    })
+}
+
+// get download file request
+export const download = (url: string, params?: Record<string, any>) => {
+    return instance({
+        url,
+        method: 'get',
+        params,
+        responseType: 'blob'
     })
 }
 

@@ -41,7 +41,7 @@
             >
                 <el-button plain type="success">导入<span style="font-size: 12px;">(JSON)</span></el-button>
             </el-upload>
-            <el-button plain type="warning">导出<span style="font-size: 12px;">(Excel)</span></el-button>
+            <el-button plain type="warning" :disabled="!multipleSelection.length" @click="exposeExcel">导出<span style="font-size: 12px;">(Excel)</span></el-button>
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
             <el-button plain type="danger" :disabled="multipleSelection.length != 1" @click="update">修改<span style="font-size: 12px;">(单行)</span></el-button>
         </el-space>
@@ -135,7 +135,7 @@ import type { ElTable, UploadRawFile, UploadUserFile, UploadInstance} from 'elem
 import { thousandFormat } from '~/utils/thousandFormat';
 import AddDialog from './add.vue'
 import { giftIcon } from "~/utils/commonUtils"
-import { queryGiftsAPI, delGiftsAPI } from '~/api/admin';
+import { queryGiftsAPI, delGiftsAPI, exposeGiftExcel } from '~/api/admin';
 import type { QueryGiftsParams, DelGiftsParams } from '~/api/admin';
 
 const giftId = ref<number>()
@@ -160,8 +160,6 @@ const uploadRef = ref<UploadInstance>()
 
 /* 在html中无法使用import.meta，所以用computed先计算，将结果交给html */
 const uploadUrl = computed(() => `${import.meta.env.VITE_API}/v2/uploadGiftJsonFile`)
-
-console.log('uploadUrl: ', uploadUrl.value)
 
 const setAddVisible = () => {
     isAddVisible.value = true
@@ -276,5 +274,16 @@ const beforeUpload = (rawFile: UploadRawFile) => {
         ElMessage.warning('file type should be *.json.')
         return false
     }
+}
+
+const exposeExcel = async () => {
+    const ids = multipleSelection.value.map(v => v.giftId)
+    if (ids.length == 0) {
+        ElMessage.warning('还未选中')
+        return
+    }
+
+    const params: DelGiftsParams = { ids }
+    await exposeGiftExcel(params)
 }
 </script>
