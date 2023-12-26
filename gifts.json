@@ -1,32 +1,86 @@
 {
     "gifts": [
         {
-            "giftId": 40003524,
-            "giftName": "礼物1",
+            "giftId": 40004279,
+            "giftName": "K宝圣诞帽",
             "giftType": "普通礼物",
             "giftTypeId": 1,
             "extendsTypes": [
-                { "giftId": 40003524, "extendsId": 1001, "extendsName": "经典礼物" }
+                { "extendsId": 1001, "extendsName": "经典礼物" }
             ],
             "giftTags": [
-                { "giftId": 40003524, "giftTagId": 4, "giftTagName": "活动礼物" }
+                { "giftTagId": 4, "giftTagName": "活动礼物" }
             ],
             "giftValue": 50,
-            "giftDescribe": "哈哈哈",
-            "cornerMarkId": 100077,
-            "cornerMarkName": "周星"
+            "giftDescribe": "K宝祝你圣诞快乐！",
+            "cornerMarkId": 100068,
+            "cornerMarkName": "活动"
         },
         {
-            "giftId": 40000059,
-            "giftName": "礼物2",
+            "giftId": 40004278,
+            "giftName": "心愿圣诞树",
+            "giftType": "豪华礼物",
+            "giftTypeId": 3,
+            "extendsTypes": [
+                { "extendsId": 1001, "extendsName": "经典礼物" }
+            ],
+            "giftTags": [
+                { "giftTagId": 4, "giftTagName": "活动礼物" }
+            ],
+            "giftValue": 100000,
+            "giftDescribe": "我收到过最好的圣诞礼物，是穿越风雪为我而来的你",
+            "cornerMarkId": 100068,
+            "cornerMarkName": "活动"
+        },
+        {
+            "giftId": 40004280,
+            "giftName": "冰雪盲盒",
             "giftType": "高级礼物",
             "giftTypeId": 2,
-            "extendsTypes": [],
-            "giftTags": [],
-            "giftValue": 66000,
-            "giftDescribe": "动次打次",
-            "cornerMarkId": 100075,
-            "cornerMarkName": "特效"
+            "extendsTypes": [
+                { "extendsId": 1001, "extendsName": "经典礼物" }
+            ],
+            "giftTags": [
+                { "giftTagId": 4, "giftTagName": "活动礼物" },
+                { "giftTagId": 1, "giftTagName": "盲盒礼物" }
+            ],
+            "giftValue": 50000,
+            "giftDescribe": "",
+            "cornerMarkId": 100068,
+            "cornerMarkName": "活动"
+        },
+        {
+            "giftId": 40004211,
+            "giftName": "年度盲盒",
+            "giftType": "豪华礼物",
+            "giftTypeId": 3,
+            "extendsTypes": [
+                { "extendsId": 1001, "extendsName": "经典礼物" }
+            ],
+            "giftTags": [
+                { "giftTagId": 4, "giftTagName": "活动礼物" },
+                { "giftTagId": 1, "giftTagName": "盲盒礼物" }
+            ],
+            "giftValue": 88000,
+            "giftDescribe": "",
+            "cornerMarkId": 100084,
+            "cornerMarkName": "年度"
+        },
+        {
+            "giftId": 40004275,
+            "giftName": "巅峰票",
+            "giftType": "普通礼物",
+            "giftTypeId": 1,
+            "extendsTypes": [
+                { "extendsId": 1001, "extendsName": "经典礼物" }
+            ],
+            "giftTags": [
+                { "giftTagId": 4, "giftTagName": "活动礼物" }
+            ],
+            "giftValue": 50,
+            "giftDescribe": "年度主播家族十强赛活动礼物",
+            "cornerMarkId": 100084,
+            "cornerMarkName": "年度"
         }
     ]
 }
