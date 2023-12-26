@@ -84,10 +84,11 @@
         </el-table-column>
         <el-table-column prop="cornerMarkId" label="礼物角标" width="100">
             <template #default="cm">
-                <el-image style="width: 42px" :src="giftIcon(cm.row.cornerMarkId)" fit="contain" />
+                <el-image v-if="cm.row.cornerMarkId" style="width: 42px" :src="giftIcon(cm.row.cornerMarkId)" fit="contain" />
+                <el-text v-else></el-text>
             </template>
         </el-table-column>
-        <el-table-column prop="createDate" label="创建日期" width="120">
+        <el-table-column prop="createDate" label="创建日期" min-width="120">
             <template #default="cd">
                 <el-text>{{ dayjs(cd.row.createDate).format("YYYY-MM-DD") }}</el-text>
             </template>
@@ -127,7 +128,7 @@
 </style>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { giftTypes, giftTypeExtends, giftTags, tags, GIFT_JSON_FILE_LIMIT } from './gifts-config'
 import type { GiftResItem } from './gifts-config'
 import { dayjs } from 'element-plus' /* 引入时加上type，避免手动引入和自动引入的冲突，冲突时会导致组件样式无法自动加载 */
@@ -218,6 +219,11 @@ const search = async () => {
         ElMessage.error(res.message)
     }
 }
+
+watch(
+    [currentPage, pageSize],
+    search,
+)
 
 const resetSearch = () => {
     giftId.value = undefined

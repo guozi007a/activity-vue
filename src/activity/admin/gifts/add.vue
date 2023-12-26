@@ -153,8 +153,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             params.giftType = giftTypes.find(v => v.giftTypeId == params.giftTypeId)?.giftTypeName!
             params.giftValue = formReq.giftValue
             params.giftDescribe = formReq.giftDescribe
-            params.extendsTypes = formReq.extendsTypes.length ? formReq.extendsTypes.map(v => typeof v == "number" ? giftTypeExtends.find(item => item.extendsId == v)! : v) : []
-            params.giftTags = formReq.giftTags.length ? formReq.giftTags.map(v => typeof v == "number" ? giftTags.find(item => item.giftTagId == v)! : v) : []
+            // extendsTypes和giftTags需要注意，得到的是Proxy原始数据，需要转成普通对象
+            params.extendsTypes = formReq.extendsTypes.length ? formReq.extendsTypes.map(v => typeof v == "number" ? {...giftTypeExtends.find(item => item.extendsId == v)!} : {...v}) : []
+            params.giftTags = formReq.giftTags.length ? formReq.giftTags.map(v => typeof v == "number" ? {...giftTags.find(item => item.giftTagId == v)!} : {...v}) : []
             params.cornerMarkId = formReq.cornerMarkId ?? 0
             params.cornerMarkName = params.cornerMarkId ? cornerMarks.find(v => v.cornerMarkId == params.cornerMarkId)?.cornerMarkName ?? "" : ""
             // console.log('params: ', params)
