@@ -246,7 +246,7 @@ const removeGifts = async () => {
     const res = await delGiftsAPI(params)
     if (res.code == "0") {
         ElMessage.success('删除成功！')
-        giftList.value = giftList.value.filter(v => multipleSelection.value.find(item => item.giftId != v.giftId))
+        giftList.value = giftList.value.filter(v => !ids.includes(v.giftId))
         cancelMultipleSelection()
     } else {
         ElMessage.error(res.message)
@@ -265,7 +265,7 @@ const uploadFail = () => {
 }
 
 const beforeUpload = (rawFile: UploadRawFile) => {
-    console.log('rawFile: ', rawFile)
+    // console.log('rawFile: ', rawFile)
     if (rawFile.size > GIFT_JSON_FILE_LIMIT) {
         ElMessage.warning('JSON file should be less than 5M.')
         return false
@@ -285,5 +285,7 @@ const exposeExcel = async () => {
 
     const params: DelGiftsParams = { ids }
     await exposeGiftExcel(params)
+
+    cancelMultipleSelection() // 点击导出后，取消选中
 }
 </script>

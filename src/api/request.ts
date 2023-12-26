@@ -116,7 +116,6 @@ instance.interceptors.response.use(function (response) {
                 window.URL.revokeObjectURL(url)
             }
         }
-        return response
     }
     // 对响应数据做点什么
     return response.data;
