@@ -106,7 +106,7 @@
         hide-on-single-page
         style="margin-top: 12px;"
     />
-    <AddDialog :isAddVisible="isAddVisible" @close="closeAdd" :updateInfo="updateInfo" />
+    <AddDialog :isAddVisible="isAddVisible" @close="closeAdd" :updateInfo="updateInfo" @updateList="updateList" />
 </template>
 
 <style scoped lang="scss">
@@ -170,6 +170,11 @@ const closeAdd = () => {
     updateInfo.value = undefined
     multipleSelection.value.length && cancelMultipleSelection()
 }
+
+const updateList = (params: GiftResItem) => {
+    giftList.value = giftList.value.map(v => v.giftId == params.giftId ? params : v)
+}
+
 const handleSelectionChange = (val: GiftResItem[]) => {
     multipleSelection.value = val
     isStripe.value = Boolean(!val.length)

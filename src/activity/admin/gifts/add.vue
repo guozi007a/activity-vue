@@ -120,11 +120,11 @@ interface PropType {
 
 const props = defineProps<PropType>()
 
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close', 'updateList'])
 
 const closeDialog = (formEl: FormInstance | undefined) => {
     resetForm(formEl)
-    emits('close', false)
+    emits('close')
 }
 
 const initForm = {} as GiftResItem
@@ -164,6 +164,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 const res = await updateGiftAPI(params)
                 if (res.code == "0") {
                     ElMessage.success('修改成功!')
+                    emits('updateList', params)
                     closeDialog(formEl)
                 } else {
                     ElMessage.error(res.message)
