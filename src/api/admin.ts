@@ -76,4 +76,7 @@ export const updateGiftAPI = (params: Omit<GiftResItem, "createDate">) => post('
 export const uploadGiftJsonFileAPI = (file: File) => postFile('/v2/uploadGiftJsonFile', file)
 
 // 导出礼物excel文件
-export const exposeGiftExcel = (params: DelGiftsParams) => download('/v2/downloadGiftExcel', params)
+export const exposeGiftExcelAPI = (params: DelGiftsParams) => download('/v2/downloadGiftExcel', params)
+
+// 导出所有礼物的json文件
+export const exposeGiftsJSONAPI = () => download('/v2/downloadGiftsJSON')

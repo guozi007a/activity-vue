@@ -27,7 +27,6 @@
             <el-tag :type="multipleSelection.length ? 'success' : 'info'">已选中：{{ multipleSelection.length }}行</el-tag>
             <el-button type="warning" @click="cancelMultipleSelection" :disabled="!multipleSelection.length">取消选中</el-button>
             <el-button type="danger" :disabled="!multipleSelection.length" @click="removeGifts">刪除选中</el-button>
-            <!-- <el-button plain type="success">导入<span style="font-size: 12px;">(JSON)</span></el-button> -->
             <el-upload
                 ref="uploadRef"
                 :disabled="isUploading"
@@ -44,6 +43,7 @@
             <el-button plain type="warning" :disabled="!multipleSelection.length" @click="exposeExcel">导出<span style="font-size: 12px;">(Excel)</span></el-button>
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
             <el-button plain type="danger" :disabled="multipleSelection.length != 1" @click="update">修改<span style="font-size: 12px;">(单行)</span></el-button>
+            <el-button plain type="warning" @click="exposeJSON">导出<span style="font-size: 12px;">(all in JSON)</span></el-button>
         </el-space>
     </div>
     <!-- align属性是无效的，这里用cell-style和header-cell-style处理 -->
@@ -136,7 +136,7 @@ import type { ElTable, UploadRawFile, UploadUserFile, UploadInstance} from 'elem
 import { thousandFormat } from '~/utils/thousandFormat';
 import AddDialog from './add.vue'
 import { giftIcon } from "~/utils/commonUtils"
-import { queryGiftsAPI, delGiftsAPI, exposeGiftExcel } from '~/api/admin';
+import { queryGiftsAPI, delGiftsAPI, exposeGiftExcelAPI, exposeGiftsJSONAPI } from '~/api/admin';
 import type { QueryGiftsParams, DelGiftsParams } from '~/api/admin';
 
 const giftId = ref<number>()
@@ -295,8 +295,12 @@ const exposeExcel = async () => {
     }
 
     const params: DelGiftsParams = { ids }
-    await exposeGiftExcel(params)
+    await exposeGiftExcelAPI(params)
 
     cancelMultipleSelection() // 点击导出后，取消选中
+}
+
+const exposeJSON = async () => {
+    await exposeGiftsJSONAPI()
 }
 </script>
