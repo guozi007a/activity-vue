@@ -43,7 +43,7 @@
             <el-button plain type="warning" :disabled="!multipleSelection.length" @click="exposeExcel">导出<span style="font-size: 12px;">(Excel)</span></el-button>
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
             <el-button plain type="danger" :disabled="multipleSelection.length != 1" @click="update">修改<span style="font-size: 12px;">(单行)</span></el-button>
-            <el-button plain type="warning" @click="exposeJSON">导出<span style="font-size: 12px;">(all in JSON)</span></el-button>
+            <el-button plain type="warning" v-if="profileStore.profile.isLogin && profileStore.profile.userId === 10323" @click="exposeJSON">导出<span style="font-size: 12px;">(all in JSON)</span></el-button>
         </el-space>
     </div>
     <!-- align属性是无效的，这里用cell-style和header-cell-style处理 -->
@@ -138,6 +138,7 @@ import AddDialog from './add.vue'
 import { giftIcon } from "~/utils/commonUtils"
 import { queryGiftsAPI, delGiftsAPI, exposeGiftExcelAPI, exposeGiftsJSONAPI } from '~/api/admin';
 import type { QueryGiftsParams, DelGiftsParams } from '~/api/admin';
+import { useLoginStore } from '~/store/useLoginStore';
 
 const giftId = ref<number>()
 const giftName = ref<string>("")
@@ -158,6 +159,8 @@ const updateInfo = ref<GiftResItem>()
 const isUploading = ref<boolean>(false)
 const fileList = ref<UploadUserFile[]>([])
 const uploadRef = ref<UploadInstance>()
+
+const profileStore = useLoginStore()
 
 /* 在html中无法使用import.meta，所以用computed先计算，将结果交给html */
 const uploadUrl = computed(() => `${import.meta.env.VITE_API}/v2/uploadGiftJsonFile`)
