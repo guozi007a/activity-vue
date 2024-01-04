@@ -43,7 +43,11 @@
             <el-button plain type="warning" :disabled="!multipleSelection.length" @click="exposeExcel">导出<span style="font-size: 12px;">(Excel)</span></el-button>
             <el-button type="success" @click="setAddVisible">添加<span style="font-size: 12px;">(单行)</span></el-button>
             <el-button plain type="danger" :disabled="multipleSelection.length != 1" @click="update">修改<span style="font-size: 12px;">(单行)</span></el-button>
-            <el-button plain type="warning" v-if="profileStore.profile.isLogin && profileStore.profile.userId === 10323" @click="exposeJSON">导出<span style="font-size: 12px;">(all in JSON)</span></el-button>
+            <el-tooltip effect="dark" content="Root Limited" placement="bottom">
+                <el-button plain type="warning" :disabled="!(profileStore.profile.isLogin && profileStore.profile.userId === 10323)" @click="exposeJSON">
+                    导出<span style="font-size: 12px;">(all in JSON)</span>
+                </el-button>
+            </el-tooltip>
         </el-space>
     </div>
     <!-- align属性是无效的，这里用cell-style和header-cell-style处理 -->
