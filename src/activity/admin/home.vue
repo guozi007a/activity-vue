@@ -70,6 +70,18 @@
                                 <el-icon><Present /></el-icon>
                                 <span>礼物配置</span>
                             </el-menu-item>
+                            <el-sub-menu index="/admin/activity-config">
+                                <template #title>
+                                    <el-icon><Crop /></el-icon>
+                                    <span>活动配置</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <el-menu-item index="/admin/activity-config/generate-code">
+                                        <el-icon><HelpFilled /></el-icon>
+                                        <span>代码生成</span>
+                                    </el-menu-item>
+                                </el-menu-item-group>
+                            </el-sub-menu>
                         </el-menu>
                     </el-aside>
                     <el-container class="admin-content-wrap">
@@ -166,6 +178,8 @@ import {
     SetUp,
     Present,
     Sell,
+    Crop,
+    HelpFilled,
 } from '@element-plus/icons-vue'
 
 document.title = '活动管理后台'
