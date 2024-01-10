@@ -76,7 +76,7 @@
                                     <span>活动配置</span>
                                 </template>
                                 <el-menu-item-group>
-                                    <el-menu-item index="/admin/activity-config/generate-code">
+                                    <el-menu-item index="/admin/activity-config/low-code">
                                         <el-icon><HelpFilled /></el-icon>
                                         <span>代码生成</span>
                                     </el-menu-item>
