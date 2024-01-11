@@ -4,7 +4,7 @@
             type="card"
             addable
             class="tabs"
-            v-model="tabKey"
+            v-model="tabKey.name"
             @edit="editTab"
         >
             <el-tab-pane
@@ -36,20 +36,39 @@
         </el-tabs>
         <el-container class="low_code_wrap">
             <el-container class="low_code_container">
-                <el-aside class="toolbars" style="width: 120px;">
-                    <el-popover
-                        title="盒子"
-                        placement="right"
-                    >
-                        <template #reference>
-                            <el-icon><Grid /></el-icon>
-                        </template>
-                        <template #default>
-                            <span>普通盒子</span>
-                        </template>
-                    </el-popover>
+                <el-aside class="toolbars" style="width: 180px;">
+                    <el-header style="height: 30px;text-align: center;line-height: 30px;">
+                        <el-text style="font-weight: bold;font-size: 18px;">工具栏</el-text>
+                    </el-header>
+                    <el-tabs type="border-card">
+                        <el-tab-pane
+                            v-for="v in TOOLBAR_CONFIG"
+                            :label="v.cate"
+                            :key="v.cateId"
+                        >
+                            <template #default>
+                                <el-space wrap>
+                                    <el-button 
+                                        v-for="t in v.soup"
+                                        :key="t.meterialId"
+                                        plain
+                                    >{{ t.meterial }}</el-button>
+                                </el-space>
+                            </template>
+                        </el-tab-pane>
+                    </el-tabs>
                 </el-aside>
-                <el-main class="low_code_content">hello</el-main>
+                <el-main class="low_code_content">
+                    <el-container class="lc_context_wrap">
+                        <el-container class="lc_context" :class="`lc_context${tabKey.lowId}`">hello</el-container>
+                    </el-container>
+                </el-main>
+                <el-aside style="width: 220px;">
+                    <el-header style="height: 30px;text-align: center;line-height: 30px;">
+                        <el-text style="font-weight: bold;font-size: 18px;">样式调参</el-text>
+                    </el-header>
+                    <el-container style="background-color: var(--el-fill-color-light);"></el-container>
+                </el-aside>
             </el-container>
             <el-footer style="line-height: 60px;">
                 <el-button type="primary">保存画布</el-button>
@@ -100,6 +119,52 @@
             display: none;
         }
     }
+
+    .low_code_wrap {
+        user-select: none;
+
+        .low_code_content {
+            position: relative;
+            height: 666px;
+
+            .lc_context_wrap {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                border: 1px solid var(--el-border-color);
+                overflow: hidden;
+
+                .lc_context {
+                    position: absolute;
+                    z-index: 1;
+                    top: 0;
+                    left: 0;
+
+                    &.lc_context1 {
+                        width: 1920px;
+                    }
+
+                    &.lc_context2 {
+                        width: 1080px;
+                    }
+
+                    &.lc_context3 {
+                        width: 400px;
+                        height: 80px;
+                    }
+
+                    &.lc_context4 {
+                        width: 158px;
+                        height: 398px;
+                    }
+
+                    &.lc_context5 {
+                        width: 1080px;
+                    }
+                }
+            }
+        }
+    }
 }
 </style>
 
@@ -107,8 +172,7 @@
 import { ref } from 'vue'
 import { ClickOutside as vClickOutside } from 'element-plus'
 import type { TabPaneName } from 'element-plus'
-import { LOW_CATES } from './config'
-import { Grid } from '@element-plus/icons-vue'
+import { LOW_CATES, TOOLBAR_CONFIG } from './config'
 
 interface PaneConfig {
     title: string
@@ -116,11 +180,11 @@ interface PaneConfig {
     lowId: number
 }
 
-const tabKey = ref('play_2408')
 const tabs = ref<PaneConfig[]>([
     { title: "play_2408", name: "play_2408", lowId: 1 },
     { title: "play_2408_room", name: "play_2408_room", lowId: 3 },
 ])
+const tabKey = ref<PaneConfig>(tabs.value[0])
 const visiblePop = ref<PaneConfig | undefined>()
 const addDialogVisible = ref(false)
 const newTabName = ref('')
@@ -152,10 +216,10 @@ const editTab = (paneName: TabPaneName | undefined, action: 'remove' | 'add') =>
         if (tabs.value.length <= 1) {
             tabs.value = []
         } else {
-            if (tabKey.value == paneName) {
+            if (tabKey.value?.name == paneName) {
                 tabs.value.forEach((v, i) => {
                     if (v.name == paneName) {
-                        tabKey.value = tabs.value[i + 1]?.name || tabs.value[i - 1]?.name
+                        tabKey.value = tabs.value[i + 1] || tabs.value[i - 1]
                     }
                 })
             }
