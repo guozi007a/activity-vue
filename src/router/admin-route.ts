@@ -8,7 +8,6 @@ const EventTrackingInteractive = () => import('~/activity/admin/event-tracking-l
 const Charge = () => import('~/activity/admin/charge.vue')
 const ChargeLogs = () => import('~/activity/admin/charge-logs.vue')
 const Gifts = () => import('~/activity/admin/gifts/gifts.vue')
-const ActivityLowCode = () => import('~/activity/admin/activity-config/low-code.vue')
 
 export const adminRoutes = [
     { 
@@ -40,12 +39,6 @@ export const adminRoutes = [
                 ]
             },
             { path: 'gifts', component: Gifts },
-            {
-                path: 'activity-config',
-                children: [
-                    { path: 'low-code', component: ActivityLowCode },
-                ]
-            }
         ]
     }
 ]
