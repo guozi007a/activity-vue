@@ -48,11 +48,29 @@
                         >
                             <template #default>
                                 <el-space wrap>
-                                    <el-button 
-                                        v-for="t in v.soup"
-                                        :key="t.meterialId"
-                                        plain
-                                    >{{ t.meterial }}</el-button>
+                                    <template v-for="t in v.soup">
+                                        <el-popover 
+                                            :disabled="!t.stuff || t.stuff.length == 0" 
+                                            placement="right"
+                                            trigger="click"
+                                        >
+                                            <template #reference>
+                                                <el-button @click="meterialKey = t.meterialId">{{ t.meterial }}</el-button>
+                                            </template>
+                                            <template #default>
+                                                <el-space wrap>
+                                                    <el-button 
+                                                        v-for="s in t.stuff" 
+                                                        type="success"
+                                                        :key="s.foodId"
+                                                        style="width: 120px;"
+                                                        plain
+                                                        @click="stuffKey = s.foodId"
+                                                    >{{ s.food }}</el-button>
+                                                </el-space>
+                                            </template>
+                                        </el-popover>
+                                    </template>
                                 </el-space>
                             </template>
                         </el-tab-pane>
@@ -67,7 +85,20 @@
                     <el-header style="height: 30px;text-align: center;line-height: 30px;">
                         <el-text style="font-weight: bold;font-size: 18px;">样式调参</el-text>
                     </el-header>
-                    <el-container style="background-color: var(--el-fill-color-light);"></el-container>
+                    <el-container style="background-color: var(--el-fill-color-light);">
+                        <el-container v-if="meterialKey == 300">
+                            <el-header style="margin-top: 5px;">
+                                指定父图层：<el-input style="margin-top: 5px;" />
+                            </el-header>
+                            <el-footer style="line-height: 60px;">
+                                <el-button type="primary">确定</el-button>
+                            </el-footer>
+                        </el-container>
+                        <el-container v-else-if="stuffKey == 40001">
+                            <el-container class="handler"></el-container>
+                            <el-container class="faster"></el-container>
+                        </el-container>
+                    </el-container>
                 </el-aside>
             </el-container>
             <el-footer style="line-height: 60px;">
@@ -189,6 +220,8 @@ const visiblePop = ref<PaneConfig | undefined>()
 const addDialogVisible = ref(false)
 const newTabName = ref('')
 const tabCate = ref<number | undefined>()
+const meterialKey = ref<number | undefined>()
+const stuffKey = ref<number | undefined>()
 
 const handleTabContextmenu = (v: PaneConfig) => {
     visiblePop.value = v
